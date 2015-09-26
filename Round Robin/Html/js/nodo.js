@@ -1,10 +1,10 @@
 //constructor
-function nodo(){
-	var	proceso;
-	var	tiempoEjecucion;
-	var	quantum;	
-	var	siguiente;
-	var	anterior;
-	var recurso;
-	var estado;
+var nodo1 = function(metrica){
+	this.proceso;
+	this.tiempoEjecucion;
+	this.metrica = metrica;	
+	this.siguiente;
+	this.anterior;
+	this.recurso;
+	this.estado;
 } 
