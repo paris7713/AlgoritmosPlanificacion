@@ -1,5 +1,5 @@
 //constructor
-function lista(){
+var lista = function (){
 	this.raiz = null;
 	this.cola= null;
 	this.insertar = insertarNodo;
@@ -7,9 +7,8 @@ function lista(){
 	this.vacia = vacia;
 	this.longitud;
 }
-
 //inserta un nodo en la lista
-function insertarNodo(procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
+lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
 	var nuevo = new nodo();
 	var auxiliar = new nodo();
 	nuevo.proceso = procesoE;
@@ -44,7 +43,7 @@ function insertarNodo(procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
 }
 
 // Extraer el primer nodo de la lista
-function extraerNodo(){
+lista.prototype.extraerNodo = function extraerNodo(){
 	if(!this.longitud){
 		alert("Cola vacia");
 	}
