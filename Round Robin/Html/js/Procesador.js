@@ -1,11 +1,24 @@
-var Procesador = function (algoritmoPlanificacion){
+var Procesador = function (AlgoritmoPlanificacion){
 	this.colaListo = new lista();
 	this.colaBloqueo = new lista();
 	this.colaSuspendido = new lista();
 	this.colaCritico = new lista();
-	this.algoritmoPlanificacion = algoritmoPlanificacion;
+	this.algoritmoPlanificacion = new AlgoritmoPlanificacion();
 }
-
+//---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
-	this.algoritmoPlanificacion.liberarCritico();
+	this.algoritmoPlanificacion.procesar(this);
 }
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.insertarProceso = function (proceso){
+	this.colaListo.insertarNodo(proceso);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.bloquearProceso = function (proceso){
+	this.colaListo.insertarNodo(proceso);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.suspenderProceso = function (proceso){
+	this.colaListo.insertarNodo(proceso);
+}
+//---------------------------------------------------------------------------------------------------------------------------------

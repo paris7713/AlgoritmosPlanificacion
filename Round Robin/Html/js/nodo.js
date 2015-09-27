@@ -1,5 +1,5 @@
 //constructor
-var nodo1 = function(metrica){
+var Nodo = function(nombre, tiempo, metrica){
 	this.proceso;
 	this.tiempoEjecucion;
 	this.metrica = metrica;	
