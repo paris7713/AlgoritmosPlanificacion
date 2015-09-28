@@ -19,6 +19,7 @@ lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, quantumE, r
 		this.raiz = nodoEntreante;
 		this.raiz.anterior = null;
 		this.longitud = 1;
+		this.pintarProceso();
 	}
 	else{		
 		if(this.longitud == 1){
@@ -50,6 +51,25 @@ lista.prototype.extraerNodo = function extraerNodo(){
 		this.raiz.anterior = null;	
 		this.longitud = this.longitud - 1;	
 		return auxiliar;
-	}
-	
+	}	
 }
+
+//---------------------------------------------------------------------------------------------------------------------------------
+lista.prototype.pintarProceso = function (divId){
+	var cola = this;
+	setInterval(function(){ 
+		if(cola.longitud){	
+			if(cola.longitud == 1){	
+				$("#colaListo").append('<span>' + cola.raiz.nombre + '</span>');
+			}
+			else{
+				var auxiliar = cola.raiz;
+				while(auxiliar.siguiente){
+					auxiliar = auxiliar.siguiente;
+					$("#colaListo").append('<span>' + auxiliar.nombre + '</span>');				
+				}
+			}
+		}
+	}, 10000);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
