@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Round Robin</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel = "stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">  
+        
+        <style type="text/css">
+          html, body, #googleMap { height: 300px; margin: 0; padding: 0;}
+        </style> 
+                
+        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+		<script src = "http://code.jquery.com/jquery-1.10.2.js"></script>
+		<script src = "http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        <script src = "js/vendor/bootstrap.min.js"></script> 
+        <script src = "js/Maquina.js"></script> 
+        <script src = "js/nodo.js"></script> 
+        <script src = "js/lista.js"></script> 
+        <script src = "js/Procesador.js"></script> 
+        <script src = "js/crearProceso.js"></script> 
+        <script src = "js/crearRecurso.js"></script> 
+        <script src = "js/roundRobin.js"></script> 
+        
+        <script>
+            jQuery(window).load(function (){
+                for (var i = 0; i < maquina.procesadores.length; i++ ){
+                    $("#procesador").append('<option value="volvo">' + maquina.procesadores[i] + '</option>');
+                }
+            });
+        </script>
+                
+    </head>
+    <body>
+
+     <div class="container">
+        <div class = "row">
+            <h1 align = "center" >Round Robin</h1>
+            
+            <div class="col-md-6" id = "proceso">
+                <h4 align = "center">Proceso</h1>
+                <div class="col-md-8" id = "crearProceso">                    
+                    
+                    <div class="form-group">
+                        <label class="text col-md-4 control-label" for="nameText">Nombre :</label>
+                        <div class="col-md-3 texto">
+                            <input id="nombreP"type="text" size="15" maxlength="10" placeholder="nombre" class="input-xlarge" required="">
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label" for="nameText">Tiempo Ejecucion:</label>
+                        <div class="col-lg-3 texto">
+                            <input id="tiempo"type="text" size="15" maxlength="10" placeholder="tiempo" class="input-xlarge" required="">
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label" for="nameText">Procesador:</label>
+                        <div class="col-lg-3 texto">
+                            <select id = "procesador">
+                                
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type = "submit" id="crearProceso" onclick="" class="btn btn-warning btn-md" value="Crear Proceso">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" id = "listaProcesos">
+                    <h4 align = "center">Lista de procesos</h4>
+                </div>
+                
+            </div>
+            
+            <div class="col-md-6" id = "recurso">
+                <h4 align = "center">Recurso</h1>
+                <div class="col-md-8" id = "crearRecurso">  
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label">Nombre:</label>
+                        <div class="col-lg-2 texto">
+                            <input id="nombreR"type="text" size="15" maxlength="10" placeholder="nombre" class="input-xlarge" required="">
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label">Unidad:</label>
+                        <div class="col-lg-3 texto">
+                            <input id="unidad"type="text" size="15" maxlength="10" placeholder="unidad" class="input-xlarge" required="">
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label">Cantidad:</label>
+                        <div class="col-lg-3 texto">
+                            <input id="cantidad"type="text" size="15" maxlength="10" placeholder="cantidad" class="input-xlarge" required="">
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type = "submit" id="crearRecurso" onclick="crearRecurso()" class="btn btn-warning btn-md" value="Crear Recurso">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-4" id = "listaRecursos">
+                    <h4 align = "center">Lista de recursos</h4>
+                </div>
+            </div>	
+        </div>  
+    </div>
+    </body>
+</html>
