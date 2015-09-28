@@ -1,4 +1,5 @@
 var Procesador = function (AlgoritmoPlanificacion){
+	this.nombre = "Procesador " + contadorProcesadores;
 	this.colaListo = new lista();
 	this.colaBloqueo = new lista();
 	this.colaSuspendido = new lista();
