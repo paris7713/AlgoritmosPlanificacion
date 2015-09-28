@@ -1,9 +1,11 @@
-var Procesador = function (nombre, AlgoritmoPlanificacion){
+var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 	this.nombre = nombre;
 	this.colaListo = new lista();
 	this.colaBloqueo = new lista();
 	this.colaSuspendido = new lista();
 	this.colaCritico = new lista();
+    this.colaFinalizado = new lista();
+    this.dibujarProcesador(divId);
 	//this.algoritmoPlanificacion = new AlgoritmoPlanificacion();
 }
 /*
@@ -25,28 +27,36 @@ Procesador.prototype.suspenderProceso = function (proceso){
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.dibujarProcesador = function (divId){
-	$(divId).append(+'<div class = "row">'
+	var procesador = this;
+    var divIdListo = "listo" + this.nombre;
+    var divIdSuspendido = "suspendido" + this.nombre;
+    var divIdBloqueado = "bloqueado" + this.nombre;
+    var divIdFinalizado = "finalizado" + this.nombre;;
+    
+    $(window).load(function (){
+        $(''+divId).append(
+        '<div class = "row">'
             +'<hr>'
             +'<div class="col-md-3"></div> '
             +'<div class="col-md-6">'
                 +'<div class="panel panel-primary">'
                     +'<div class="panel-heading">'
-                        +'<h3 class="panel-title">Procesador 1</h3>'
+                        +'<h3 class="panel-title">'+ procesador.nombre +'</h3>'
                     +'</div>'
-                    +'<div class="panel-body">'
+                    +'<div class="panel-body" id = "'+ procesador.nombre +'">'
                         +'Informacion del procesador'
                     +'</div>'
                 +'</div>'
             +'</div>'
         +'</div>'
         
-        +'<div class = "row">'
+       +'<div class = "row">'
             +'<div class="col-md-3">'
                 +'<div class="panel panel-success">'
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola Listo</h3>'
                     +'</div>'
-                    +'<div class="panel-body" id = "colaListo">'
+                    +'<div class="panel-body" id = "'+ divIdListo +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
@@ -56,8 +66,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola Suspendido</h3>'
                     +'</div>'
-                    +'<div class="panel-body">'
-                        +'<span class="label label-primary">Proceso 1</span>'
+                    +'<div class="panel-body" id = "'+ divIdSuspendido +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
@@ -67,10 +76,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola Bloqueado</h3>'
                     +'</div>'
-                    +'<div class="panel-body">'
-                        +'<span class="label label-primary">Proceso 1</span>'
-                        +'<span class="label label-primary">Proceso 2</span>'
-                        +'<span class="label label-primary">Proceso 3</span>'
+                    +'<div class="panel-body" id = "'+ divIdBloqueado +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
@@ -80,12 +86,17 @@ Procesador.prototype.dibujarProcesador = function (divId){
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola terminado</h3>'
                     +'</div>'
-                    +'<div class="panel-body">'
-                        
+                    +'<div class="panel-body" id = "'+ divIdFinalizado +'>'    
                     +'</div>'
                 +'</div>'
             +'</div>'
         +'</div>'
         )
+    });
+    
+   this.colaListo.setDivId(divIdListo);
+   this.colaSuspendido.setDivId(divIdSuspendido);
+   this.colaBloqueo.setDivId(divIdBloqueado);
+   this.colaFinalizado.setDivId(divIdFinalizado);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
