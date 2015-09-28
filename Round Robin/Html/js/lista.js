@@ -3,6 +3,7 @@ var lista = function (){
 	this.raiz = null;
 	this.cola = null;
 	this.longitud = 0;
+	this.divId;
 }
 //inserta un nodo en la lista
 lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
@@ -53,23 +54,30 @@ lista.prototype.extraerNodo = function extraerNodo(){
 		return auxiliar;
 	}	
 }
-
 //---------------------------------------------------------------------------------------------------------------------------------
-lista.prototype.pintarProceso = function (divId){
+lista.prototype.pintarProceso = function (){
 	var cola = this;
-	setInterval(function(){ 
+	setInterval(function(){
+		$("#" + cola.divId).empty(); 
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
-				$("#colaListo").append('<span>' + cola.raiz.nombre + '</span>');
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + '</span><br>');
 			}
 			else{
 				var auxiliar = cola.raiz;
 				while(auxiliar.siguiente){
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + '</span><br>');
 					auxiliar = auxiliar.siguiente;
-					$("#colaListo").append('<span>' + auxiliar.nombre + '</span>');				
+					if(auxiliar == cola.cola){
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + '</span><br>');
+						break;	
+					}
 				}
 			}
 		}
-	}, 10000);
+	}, 1000);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+lista.prototype.setDivId = function (divId){
+	this.divId = divId;
+}
