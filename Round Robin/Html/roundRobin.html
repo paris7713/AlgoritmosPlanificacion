@@ -31,7 +31,7 @@
         <script>
             jQuery(window).load(function (){
                 for (var i = 0; i < maquina.procesadores.length; i++ ){
-                    $("#procesador").append('<option value="volvo">' + maquina.procesadores[i].nombre + '</option>');
+                    $("#procesador").append('<option value="' + i +'">' + maquina.procesadores[i].nombre + '</option>');
                 }
             });
         </script>
@@ -69,6 +69,15 @@
                         <label class="text col-lg-4 control-label" for="nameText">Procesador:</label>
                         <div class="col-lg-3 texto">
                             <select id = "procesador"></select>
+                        </div>
+                    </div>
+                    
+                    <div class = "row"></div>
+                    
+                    <div class="form-group">
+                        <label class="text col-lg-4 control-label" for="nameText">Recurso:</label>
+                        <div class="col-lg-3 texto">
+                            <select id = "recursos"></select>
                         </div>
                     </div>
                     

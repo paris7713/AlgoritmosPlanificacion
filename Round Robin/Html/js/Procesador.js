@@ -1,5 +1,5 @@
-var Procesador = function (AlgoritmoPlanificacion){
-	this.nombre = "Procesador " + contadorProcesadores;
+var Procesador = function (nombre, AlgoritmoPlanificacion){
+	this.nombre = nombre;
 	this.colaListo = new lista();
 	this.colaBloqueo = new lista();
 	this.colaSuspendido = new lista();
@@ -10,10 +10,10 @@ var Procesador = function (AlgoritmoPlanificacion){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
 	this.algoritmoPlanificacion.procesar(this);
-}
+}*/
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.insertarProceso = function (proceso){
-	this.colaListo.insertarNodo(proceso);
+Procesador.prototype.insertarProceso = function (nombre, procesador, tiempo, metrica, recurso){
+	this.colaListo.insertarNodo(nombre, procesador, tiempo, metrica, recurso);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.bloquearProceso = function (proceso){
@@ -22,5 +22,5 @@ Procesador.prototype.bloquearProceso = function (proceso){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.suspenderProceso = function (proceso){
 	this.colaListo.insertarNodo(proceso);
-}*/
+}
 //---------------------------------------------------------------------------------------------------------------------------------

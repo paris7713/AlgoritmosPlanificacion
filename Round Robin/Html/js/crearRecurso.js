@@ -7,5 +7,6 @@ function crearRecurso(){
 	
 	maquina.agregarRecurso(nombre, unidad, cantidad);
 	maquina.listar(maquina.recursos[contadorRecursos - 1].nombre, '#listaRecursos');
+	$("#recursos").append('<option value="' + maquina.recursos[contadorRecursos - 1].nombre + '">' + maquina.recursos[contadorRecursos - 1].nombre + '</option>');
 	contadorRecursos = contadorRecursos + 1;
 }

@@ -3,6 +3,7 @@ function crearProceso(){
 	var tiempo = $("#tiempo").val();
 	var procesador = $("#procesador").val();
 	var quantum;
+	var recurso = $("#recursos").val();
 	
 	if(tiempo < 5){
 		quantum = 2;
@@ -22,7 +23,6 @@ function crearProceso(){
 			}
 		}
 	}
-	
-	maquina.agregarProcesador(nombre, procesador, tiempo, quantum);
+	maquina.crearProceso(nombre, procesador, tiempo, quantum, recurso);
 	maquina.listar(nombre, '#listaProcesos');
 }
