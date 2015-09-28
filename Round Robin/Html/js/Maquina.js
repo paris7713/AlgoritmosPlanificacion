@@ -13,14 +13,13 @@ Maquina.prototype.agregarRecurso = function (nombre, unidad, cantidad){
 	this.recursos.push(new Recurso(nombre, unidad, cantidad));
 }
 //--------------------------------------------------------------------------------------------------------------------
-Maquina.prototype.agregarProcesador = function (AlgoritmoPlanificacion){
-	this.procesadores.push(new Procesador(AlgoritmoPlanificacion));
+Maquina.prototype.agregarProcesador = function (nombre, AlgoritmoPlanificacion){
+	this.procesadores.push(new Procesador(nombre, AlgoritmoPlanificacion));
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.crearProceso = function (nombre, procesador, tiempo, metrica, recurso){
 	if(this.validarRecurso(recurso)){		
-		var nodo = new Nodo (nombre, tiempo, metrica);
-		this.procesadores[procesador].ingresarProceso(nodo);
+		this.procesadores[procesador].insertarProceso(nombre, procesador, tiempo, metrica, recurso);
 	}
 	else{
 		this.procesadores[procesador].bloquearProceso(nodo);
