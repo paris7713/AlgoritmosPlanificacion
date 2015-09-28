@@ -17,7 +17,21 @@ Maquina.prototype.agregarProcesador = function (AlgoritmoPlanificacion){
 	this.procesadores.push(new Procesador(AlgoritmoPlanificacion));
 }
 //--------------------------------------------------------------------------------------------------------------------
-Maquina.prototype.crearProceso = function (nombre, procesador, tiempo, metrica){
-	var nodo = new Nodo (nombre, tiempo, metrica);
-	this.procesadores[procesador].ingresarProceso(nodo);
+Maquina.prototype.crearProceso = function (nombre, procesador, tiempo, metrica, recurso){
+	if(this.validarRecurso(recurso)){		
+		var nodo = new Nodo (nombre, tiempo, metrica);
+		this.procesadores[procesador].ingresarProceso(nodo);
+	}
+	else{
+		this.procesadores[procesador].bloquearProceso(nodo);
+	}
+}
+//--------------------------------------------------------------------------------------------------------------------
+Maquina.prototype.validarRecurso = function (recurso){
+	if(this.recursos[recurso] == 1){
+		return false;
+	}
+	else{
+		return true;
+	}
 }

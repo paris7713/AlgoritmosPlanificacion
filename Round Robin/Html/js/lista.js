@@ -6,8 +6,8 @@ var lista = function (){
 }
 //inserta un nodo en la lista
 lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
-	var nodoEntreante = new nodo();
-	var auxiliar = new nodo();
+	var nodoEntreante = new Nodo();
+	var auxiliar = new Nodo();
 	nodoEntreante.proceso = procesoE;
 	nodoEntreante.tiempo = tiempoEjecucionE;
 	nodoEntreante.quantum = quantumE;

@@ -1,10 +1,10 @@
 //constructor
 var Nodo = function(nombre, tiempo, metrica){
-	this.proceso;
-	this.tiempoEjecucion;
+	this.proceso = nombre;
+	this.tiempoEjecucion = tiempo;
 	this.metrica = metrica;	
-	this.siguiente;
-	this.anterior;
-	this.recurso;
-	this.estado;
+	this.siguiente = null;
+	this.anterior = null;
+	this.recurso = null;
+	this.estado = null;
 } 
