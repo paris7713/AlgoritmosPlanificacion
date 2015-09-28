@@ -35,3 +35,7 @@ Maquina.prototype.validarRecurso = function (recurso){
 		return true;
 	}
 }
+//--------------------------------------------------------------------------------------------------------------------
+Maquina.prototype.listar = function (nombre, divId){
+	$(divId).append('<li>' + nombre + '</div>');
+}

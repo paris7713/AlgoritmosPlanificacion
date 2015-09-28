@@ -20,7 +20,6 @@
         <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 		<script src = "http://code.jquery.com/jquery-1.10.2.js"></script>
 		<script src = "http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-        <script src = "js/vendor/bootstrap.min.js"></script> 
         <script src = "js/Maquina.js"></script> 
         <script src = "js/nodo.js"></script> 
         <script src = "js/lista.js"></script> 
@@ -32,7 +31,7 @@
         <script>
             jQuery(window).load(function (){
                 for (var i = 0; i < maquina.procesadores.length; i++ ){
-                    $("#procesador").append('<option value="volvo">' + maquina.procesadores[i] + '</option>');
+                    $("#procesador").append('<option value="volvo">' + maquina.procesadores[i].nombre + '</option>');
                 }
             });
         </script>
@@ -46,7 +45,7 @@
             
             <div class="col-md-6" id = "proceso">
                 <h4 align = "center">Proceso</h1>
-                <div class="col-md-8" id = "crearProceso">                    
+                <div class="col-md-8" id = "crearProceso";>                    
                     
                     <div class="form-group">
                         <label class="text col-md-4 control-label" for="nameText">Nombre :</label>
@@ -69,9 +68,7 @@
                     <div class="form-group">
                         <label class="text col-lg-4 control-label" for="nameText">Procesador:</label>
                         <div class="col-lg-3 texto">
-                            <select id = "procesador">
-                                
-                            </select>
+                            <select id = "procesador"></select>
                         </div>
                     </div>
                     
@@ -79,12 +76,13 @@
                     
                     <div class="control-group">
                         <div class="controls">
-                            <input type = "submit" id="crearProceso" onclick="" class="btn btn-warning btn-md" value="Crear Proceso">
+                            <input type = "submit" id="crearProceso" onclick="crearProceso()" class="btn btn-warning btn-md" value="Crear Proceso">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4" id = "listaProcesos">
+                <div class="col-md-4" id = "listaProcesosD">
                     <h4 align = "center">Lista de procesos</h4>
+                    <ul id = "listaProcesos"></ul>
                 </div>
                 
             </div>
@@ -127,11 +125,75 @@
                     </div>
                     
                 </div>
-                <div class="col-md-4" id = "listaRecursos">
-                    <h4 align = "center">Lista de recursos</h4>
+                <div class="col-md-4" id = "listaRecursosD">
+                    <h4 align = "center">Lista de Recursos</h4>
+                    <ul id = "listaRecursos"></ul>
                 </div>
             </div>	
         </div>  
+        <div class = "row">
+            <hr>
+            <div class="col-md-3"></div> 
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Procesador 1</h3>
+                    </div>
+                    <div class="panel-body">
+                        Informacion del procesador
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class = "row">
+            <div class="col-md-3">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Cola Listo</h3>
+                    </div>
+                    <div class="panel-body">
+                        <span class="label label-primary">Proceso 1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="panel panel-warning">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Cola Suspendido</h3>
+                    </div>
+                    <div class="panel-body">
+                        <span class="label label-primary">Proceso 1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Cola Bloqueado</h3>
+                    </div>
+                    <div class="panel-body">
+                        <span class="label label-primary">Proceso 1</span>
+                        <span class="label label-primary">Proceso 2</span>
+                        <span class="label label-primary">Proceso 3</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Cola terminado</h3>
+                    </div>
+                    <div class="panel-body">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
     </body>
 </html>
