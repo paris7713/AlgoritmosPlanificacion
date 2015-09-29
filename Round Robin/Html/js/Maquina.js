@@ -2,6 +2,7 @@ var Recurso = function (nombre, unidad, cantidad){
 	this.nombre = nombre,
 	this.unidad = unidad,
 	this.cantidad = cantidad;
+	this.disponible = 1;
 }
 //--------------------------------------------------------------------------------------------------------------------
 var Maquina = function (){
@@ -17,12 +18,13 @@ Maquina.prototype.agregarProcesador = function (nombre, AlgoritmoPlanificacion, 
 	this.procesadores.push(new Procesador(nombre, AlgoritmoPlanificacion, divId));
 }
 //--------------------------------------------------------------------------------------------------------------------
-Maquina.prototype.crearProceso = function (nombre, procesador, tiempo, metrica, recurso){
-	if(this.validarRecurso(recurso)){		
-		this.procesadores[procesador].insertarProceso(nombre, procesador, tiempo, metrica, recurso);
+Maquina.prototype.crearProceso = function (nombre, tiempo, metrica, recurso, procesador){
+	if(this.recursos[recurso].disponible == 1){	
+		this.recursos[recurso].disponible = 0;	
+		this.procesadores[procesador].insertarProceso(nombre, tiempo, metrica, recurso, procesador);
 	}
 	else{
-		this.procesadores[procesador].bloquearProceso(nodo);
+		this.procesadores[procesador].bloquearProceso(nombre, tiempo, metrica, recurso, procesador);
 	}
 }
 //--------------------------------------------------------------------------------------------------------------------
@@ -37,4 +39,8 @@ Maquina.prototype.validarRecurso = function (recurso){
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.listar = function (nombre, divId){
 	$(divId).append('<li>' + nombre + '</div>');
+}
+//--------------------------------------------------------------------------------------------------------------------
+Maquina.prototype.liberarRecurso = function (recurso){
+	this.recursos[recurso].disponible = 1;
 }

@@ -6,15 +6,16 @@ var lista = function (){
 	this.divId;
 }
 //inserta un nodo en la lista
-lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, quantumE, recursoE, estadoE){
+lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, metricaE, recursoE, procesadorE, estado){
 	var nodoEntreante = new Nodo();
 	var auxiliar = new Nodo();
 	nodoEntreante.proceso = procesoE;
 	nodoEntreante.tiempo = tiempoEjecucionE;
-	nodoEntreante.quantum = quantumE;
+	nodoEntreante.metrica = metricaE;
 	nodoEntreante.recurso = recursoE;
-	nodoEntreante.estado = estadoE;
+	nodoEntreante.procesador = procesadorE;
 	nodoEntreante.siguiente = null;
+	nodoEntreante.estado = estado;
 
 	if(this.longitud == 0){
 		this.raiz = nodoEntreante;
@@ -47,11 +48,19 @@ lista.prototype.extraerNodo = function extraerNodo(){
 		alert("Cola vacia");
 	}
 	else{
-		var auxiliar = this.raiz;
-		this.raiz = this.raiz.sig;
-		this.raiz.anterior = null;	
-		this.longitud = this.longitud - 1;	
-		return auxiliar;
+		if(this.longitud == 1){
+			var auxiliar = this.raiz;
+			this.raiz = null;
+			this.longitud = 0;
+			return auxiliar;
+		}
+		else{
+			var auxiliar2 = this.raiz;
+			this.raiz = this.raiz.siguiente;
+			this.raiz.anterior = null;	
+			this.longitud = this.longitud - 1;	
+			return auxiliar2;
+		}
 	}	
 }
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -61,15 +70,15 @@ lista.prototype.pintarProceso = function (){
 		$("#" + cola.divId).empty(); 
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
-				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + '</span><br>');
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    " + cola.raiz.tiempo + " seg " + '</span><br>');
 			}
 			else{
 				var auxiliar = cola.raiz;
 				while(auxiliar.siguiente){
-					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + '</span><br>');
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "    " + auxiliar.tiempo + " seg " +'</span><br>');
 					auxiliar = auxiliar.siguiente;
 					if(auxiliar == cola.cola){
-						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + '</span><br>');
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "    " + auxiliar.tiempo + " seg " +'</span><br>');
 						break;	
 					}
 				}
