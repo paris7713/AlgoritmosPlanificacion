@@ -6,28 +6,31 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 	this.colaCritico = new lista();
     this.colaFinalizado = new lista();
     this.dibujarProcesador(divId);
-	//this.algoritmoPlanificacion = new AlgoritmoPlanificacion();
+    this.hiloProceso;
+	this.algoritmoPlanificacion = AlgoritmoPlanificacion;
+    this.procesar();
 }
-/*
+
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
-	this.algoritmoPlanificacion.procesar(this);
-}*/
-//---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.insertarProceso = function (nombre, procesador, tiempo, metrica, recurso){
-	this.colaListo.insertarNodo(nombre, procesador, tiempo, metrica, recurso);
+	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 5000, this);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.bloquearProceso = function (proceso){
-	this.colaListo.insertarNodo(proceso);
+Procesador.prototype.insertarProceso = function (nombre, tiempo, metrica, recurso, procesador){
+ 	this.colaListo.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "listo");
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.suspenderProceso = function (proceso){
-	this.colaListo.insertarNodo(proceso);
+Procesador.prototype.bloquearProceso = function (nombre, tiempo, metrica, recurso, procesador){
+	this.colaBloqueo.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "bloqueado");
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.suspenderProceso = function (nombre, tiempo, metrica, recurso, procesador){
+	this.colaSuspendido.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "suspendido");
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.dibujarProcesador = function (divId){
 	var procesador = this;
+    var divCritico = "critico" + this.nombre;
     var divIdListo = "listo" + this.nombre;
     var divIdSuspendido = "suspendido" + this.nombre;
     var divIdBloqueado = "bloqueado" + this.nombre;
@@ -43,8 +46,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">'+ procesador.nombre +'</h3>'
                     +'</div>'
-                    +'<div class="panel-body" id = "'+ procesador.nombre +'">'
-                        +'Informacion del procesador'
+                    +'<div class="panel-body" id = "'+ divCritico +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
@@ -86,10 +88,14 @@ Procesador.prototype.dibujarProcesador = function (divId){
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola terminado</h3>'
                     +'</div>'
-                    +'<div class="panel-body" id = "'+ divIdFinalizado +'>'    
+                    +'<div class="panel-body" id = "'+ divIdFinalizado +'">'    
                     +'</div>'
                 +'</div>'
             +'</div>'
+        +'</div>'
+        +'<div class="row">'
+            +'<label class="text col-lg-2 control-label">Proceso:</label>'
+            +'<div class="progress progress-striped" id ="progreso' + this.nombre + '"></div>'
         +'</div>'
         )
     });
@@ -98,5 +104,16 @@ Procesador.prototype.dibujarProcesador = function (divId){
    this.colaSuspendido.setDivId(divIdSuspendido);
    this.colaBloqueo.setDivId(divIdBloqueado);
    this.colaFinalizado.setDivId(divIdFinalizado);
+   this.colaCritico.setDivId(divCritico);
+   this.pintarGantt();
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.pintarGantt = function (){
+    $(window).load(function (){
+    var tiempos = new Array();
+    tiempos["listo"] = 4;
+    tiempos["ocupado"] = 4;
+        $('#progreso' + this.nombre).append('<div class="progress-bar progress-bar-info" style="width:'+ tiempos["listo"] + '%'+'"></div>');
+        $('#progreso' + this.nombre).append('<div class="progress-bar progress-bar-danger" style="width:'+ tiempos["listo"] + '%'+'"></div>');
+    });
+}

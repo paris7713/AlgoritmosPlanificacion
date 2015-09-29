@@ -5,24 +5,8 @@ function crearProceso(){
 	var quantum;
 	var recurso = $("#recursos").val();
 	
-	if(tiempo < 5){
-		quantum = 2;
-	}
-	else{
-		if(tiempo >= 5 && tiempo <= 10){
-			quantum = 4;
-		}
-		else{
-			if(tiempo > 10 && tiempo <= 15 ){
-				quantum = 6;
-			}
-			else{
-				if(tiempo > 15 ){
-					quantum = 8;
-				}
-			}
-		}
-	}
-	maquina.crearProceso(nombre, procesador, tiempo, quantum, recurso);
+	quantum = Math.floor((tiempo * 30)/100);
+
+	maquina.crearProceso(nombre, tiempo, quantum, recurso, procesador);
 	maquina.listar(nombre, '#listaProcesos');
 }
