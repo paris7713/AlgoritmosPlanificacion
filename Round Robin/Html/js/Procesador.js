@@ -16,16 +16,16 @@ Procesador.prototype.procesar = function (Proceso){
 	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 5000, this);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.insertarProceso = function (nombre, tiempo, metrica, recurso, procesador){
- 	this.colaListo.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "listo");
+Procesador.prototype.insertarProceso = function (nodo){
+ 	this.colaListo.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.bloquearProceso = function (nombre, tiempo, metrica, recurso, procesador){
-	this.colaBloqueo.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "bloqueado");
+Procesador.prototype.bloquearProceso = function (nodo){
+	this.colaBloqueo.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.suspenderProceso = function (nombre, tiempo, metrica, recurso, procesador){
-	this.colaSuspendido.insertarNodo(nombre, tiempo, metrica, recurso, procesador, "suspendido");
+Procesador.prototype.suspenderProceso = function (nodo){
+	this.colaSuspendido.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.dibujarProcesador = function (divId){
@@ -93,10 +93,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                 +'</div>'
             +'</div>'
         +'</div>'
-        +'<div class="row">'
-            +'<label class="text col-lg-2 control-label">Proceso:</label>'
-            +'<div class="progress progress-striped" id ="progreso' + this.nombre + '"></div>'
-        +'</div>'
+        +'<div class="row" id = gantt' + procesador.nombre +'></div>'
         )
     });
     
@@ -105,15 +102,5 @@ Procesador.prototype.dibujarProcesador = function (divId){
    this.colaBloqueo.setDivId(divIdBloqueado);
    this.colaFinalizado.setDivId(divIdFinalizado);
    this.colaCritico.setDivId(divCritico);
-   this.pintarGantt();
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.pintarGantt = function (){
-    $(window).load(function (){
-    var tiempos = new Array();
-    tiempos["listo"] = 4;
-    tiempos["ocupado"] = 4;
-        $('#progreso' + this.nombre).append('<div class="progress-bar progress-bar-info" style="width:'+ tiempos["listo"] + '%'+'"></div>');
-        $('#progreso' + this.nombre).append('<div class="progress-bar progress-bar-danger" style="width:'+ tiempos["listo"] + '%'+'"></div>');
-    });
-}

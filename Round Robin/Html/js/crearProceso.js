@@ -7,6 +7,6 @@ function crearProceso(){
 	
 	quantum = Math.floor((tiempo * 30)/100);
 
-	maquina.crearProceso(nombre, tiempo, quantum, recurso, procesador);
-	maquina.listar(nombre, '#listaProcesos');
+	maquina.crearProceso(new Nodo(nombre, tiempo, quantum, recurso, procesador, "listo"));
+	//maquina.listar(nombre, '#listaProcesos');
 }

@@ -18,22 +18,21 @@ Maquina.prototype.agregarProcesador = function (nombre, AlgoritmoPlanificacion, 
 	this.procesadores.push(new Procesador(nombre, AlgoritmoPlanificacion, divId));
 }
 //--------------------------------------------------------------------------------------------------------------------
-Maquina.prototype.crearProceso = function (nombre, tiempo, metrica, recurso, procesador){
-	if(this.recursos[recurso].disponible == 1){	
-		this.recursos[recurso].disponible = 0;	
-		this.procesadores[procesador].insertarProceso(nombre, tiempo, metrica, recurso, procesador);
+Maquina.prototype.crearProceso = function (nodo){
+	if(this.validarRecurso(nodo.recurso)){		
+		this.procesadores[nodo.procesador].insertarProceso(nodo);
 	}
 	else{
-		this.procesadores[procesador].bloquearProceso(nombre, tiempo, metrica, recurso, procesador);
+		this.procesadores[nodo.procesador].bloquearProceso(nodo);
 	}
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.validarRecurso = function (recurso){
-	if(this.recursos[recurso] == 1){
-		return false;
+	if(this.recursos[recurso].disponible == 1){
+		return true;
 	}
 	else{
-		return true;
+		return false;
 	}
 }
 //--------------------------------------------------------------------------------------------------------------------

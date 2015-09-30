@@ -6,17 +6,16 @@ var lista = function (){
 	this.divId;
 }
 //inserta un nodo en la lista
-lista.prototype.insertarNodo = function (procesoE, tiempoEjecucionE, metricaE, recursoE, procesadorE, estado){
-	var nodoEntreante = new Nodo();
-	var auxiliar = new Nodo();
-	nodoEntreante.proceso = procesoE;
-	nodoEntreante.tiempo = tiempoEjecucionE;
-	nodoEntreante.metrica = metricaE;
-	nodoEntreante.recurso = recursoE;
-	nodoEntreante.procesador = procesadorE;
+lista.prototype.insertarNodo = function (nodo){
+	var nodoEntreante = nodo;
+	var auxiliar;
+	nodoEntreante.proceso = nodo.proceso;
+	nodoEntreante.tiempo = nodo.tiempo;
+	nodoEntreante.metrica = nodo.metrica;
+	nodoEntreante.recurso = nodo.recurso;
+	nodoEntreante.procesador = nodo.procesador;
 	nodoEntreante.siguiente = null;
-	nodoEntreante.estado = estado;
-
+	nodoEntreante.estado = nodo.estado;
 	if(this.longitud == 0){
 		this.raiz = nodoEntreante;
 		this.raiz.anterior = null;
