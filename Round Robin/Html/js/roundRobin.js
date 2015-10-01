@@ -7,9 +7,9 @@ RoundRobin.prototype.procesar = function (procesador){
 	if(procesador.colaListo.longitud > 0){
 		var raiz = procesador.colaListo.extraerNodo();
 		if(maquina.validarRecurso(raiz.recurso)){
+			procesador.colaCritico.insertarNodo(raiz);
 			raiz.estado = "critico";	
 			maquina.recursos[raiz.recurso].disponible = 0;
-			procesador.colaCritico.insertarNodo(raiz);
 			procesador.colaCritico.raiz.tiempo = procesador.colaCritico.raiz.tiempo - raiz.metrica;
 			setTimeout(function (){
 				if(procesador.colaCritico.raiz.tiempo > 0){		
@@ -32,7 +32,7 @@ RoundRobin.prototype.procesar = function (procesador){
 		}
 		else{
 			raiz.estado = "bloqueado";
-			procesador.bloquearProceso(raiz);
+			procesador.colaBloqueo.insertarNodo(raiz);
 		}
 	}
 	
@@ -46,7 +46,9 @@ RoundRobin.prototype.procesar = function (procesador){
 	
 	if(procesador.colaBloqueo.longitud > 0){
 		var raiz = procesador.colaBloqueo.extraerNodo();
-		raiz.estado = "listo";
-		maquina.crearProceso(raiz);
+		if(maquina.validarRecurso(raiz.recurso)){
+			raiz.estado = "listo";
+			procesador.colaListo.insertarNodo(raiz);	
+		}
 	}	
 }

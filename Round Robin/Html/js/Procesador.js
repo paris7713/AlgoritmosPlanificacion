@@ -18,10 +18,14 @@ Procesador.prototype.procesar = function (Proceso){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
     nodo.setDivId("#gantt" + this.nombre);
+    nodo.dibujarGanttNodo();
     this.colaListo.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.bloquearProceso = function (nodo){
+    nodo.setDivId("#gantt" + this.nombre);
+    nodo.dibujarGanttNodo();
+    nodo.estado = "bloqueado";
 	this.colaBloqueo.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -105,3 +109,6 @@ Procesador.prototype.dibujarProcesador = function (divId){
    this.colaCritico.setDivId(divCritico);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.pararProcesar = function (){
+    clearTimeout(this.hiloProceso);   
+}
