@@ -13,6 +13,7 @@ var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
 	this.contadorBloqueado = 0;
 	this.contadorSuspendido = 0;
 	this.contadorCritico = 0;
+	this.contadorFinalizado = 0;
 	this.divId;
 } 
 //--------------------------------------------------------------------------------------------------------------------------------------------
@@ -35,22 +36,32 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			nodo.contador = nodo.contador + 1;
 			if(nodo.estado == "listo"){
 				nodo.contadorListo = nodo.contadorListo + 1;
-				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-success" style="width:'+ nodo.contadorListo + '%'+'"></div>');
+				maquina.tiempos[0] = maquina.tiempos[0] + nodo.contadorListo;
+				maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorListo;
+				maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorListo;
+				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-success" style="width:'+ (nodo.contadorListo)*0.1 + '%'+'"></div>');
 			}
 			else if (nodo.estado == "bloqueado"){
 				nodo.contadorBloqueado = nodo.contadorBloqueado + 1;
-				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-danger" style="width:'+ nodo.contadorBloqueado + '%'+'"></div>');
+				maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorBloqueado;
+				maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorBloqueado;
+				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-danger" style="width:'+ (nodo.contadorBloqueado)*0.1 + '%'+'"></div>');
 			}
 			else if (nodo.estado == "suspendido"){
 				nodo.contadorSuspendido = nodo.contadorSuspendido + 1;
-				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-warning" style="width:'+ nodo.contadorSuspendido + '%'+'"></div>');
+				maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorSuspendido;
+				maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorSuspendido;
+				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-warning" style="width:'+ (nodo.contadorSuspendido)*0.1 + '%'+'"></div>');
 			}
 			else if(nodo.estado == "critico"){
 				nodo.contadorCritico = nodo.contadorCritico + 1;
-				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-primary" style="width:'+ nodo.contadorCritico + '%'+'"></div>');
+				maquina.tiempos[1] = maquina.tiempos[1] + nodo.contadorCritico;
+				maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorCritico
+				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-primary" style="width:'+ (nodo.contadorCritico)*0.1 + '%'+'"></div>');
 			}
-			else{
-				
+			else if(nodo.estado == "finalizado"){
+				nodo.contadorFinalizado = nodo.contadorFinalizado + 1;
+				$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-info" style="width:'+ (nodo.contadorFinalizado)*0.1 + '%'+'"></div>');
 			}
 			cantidad = cantidad + 1;
 		}, 1000);

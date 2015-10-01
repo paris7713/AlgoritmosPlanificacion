@@ -22,7 +22,7 @@ RoundRobin.prototype.procesar = function (procesador){
 				}
 				else{
 					//Analizar terminado
-					raiz.estado = "terminado";
+					raiz.estado = "finalizado";
 					raiz = procesador.colaCritico.raiz;
 					procesador.colaFinalizado.insertarNodo(raiz);
 					maquina.liberarRecurso(raiz.recurso);
@@ -50,5 +50,5 @@ RoundRobin.prototype.procesar = function (procesador){
 			raiz.estado = "listo";
 			procesador.colaListo.insertarNodo(raiz);	
 		}
-	}	
+	}		
 }
