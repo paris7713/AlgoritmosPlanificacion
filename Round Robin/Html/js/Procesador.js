@@ -17,7 +17,8 @@ Procesador.prototype.procesar = function (Proceso){
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
- 	this.colaListo.insertarNodo(nodo);
+    nodo.setDivId("#gantt" + this.nombre);
+    this.colaListo.insertarNodo(nodo);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.bloquearProceso = function (nodo){
