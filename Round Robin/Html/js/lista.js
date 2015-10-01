@@ -16,6 +16,7 @@ lista.prototype.insertarNodo = function (nodo){
 	nodoEntreante.procesador = nodo.procesador;
 	nodoEntreante.siguiente = null;
 	nodoEntreante.estado = nodo.estado;
+	nodoEntreante.divId = nodo.divId;
 	if(this.longitud == 0){
 		this.raiz = nodoEntreante;
 		this.raiz.anterior = null;

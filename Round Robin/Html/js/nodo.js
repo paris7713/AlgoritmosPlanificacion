@@ -14,23 +14,21 @@ var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
 	this.contadorSuspendido = 0;
 	this.contadorCritico = 0;
 	this.divId;
-	
-	this.dibujarGanttNodo();
 } 
-
+//--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.setEstado = function (estado){
 	this.estado = estado;
 }
-
+//--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.setDivId = function (divId){
 	this.divId = divId;
 }
-
+//--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.dibujarGanttNodo = function (){
 	var nodo = this;	
 	var cantidad = 1;
 		nodo.contador = 1;
-		$('#'+ nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.contador + ':</label>'
+		$(nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.proceso + ':</label>'
         	+'<div class="progress progress-striped" id ="progreso' + nodo.proceso + '"></div>');
 
 		setInterval(function (){
@@ -58,3 +56,4 @@ Nodo.prototype.dibujarGanttNodo = function (){
 		}, 1000);
 	
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------
