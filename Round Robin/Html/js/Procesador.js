@@ -13,7 +13,7 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
-	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 5000, this);
+	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 2000, this);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
