@@ -106,7 +106,8 @@ Procesador.prototype.dibujarProcesador = function (divId){
    this.colaSuspendido.setDivId(divIdSuspendido);
    this.colaBloqueo.setDivId(divIdBloqueado);
    this.colaFinalizado.setDivId(divIdFinalizado);
-   this.colaCritico.setDivId(divCritico);
+   this.colaCritico.setDivId(divCritico);  
+   
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.pararProcesar = function (){

@@ -1,0 +1,2 @@
+- Detener el hilo de pintar el Gantt
+- Hacer metrica
