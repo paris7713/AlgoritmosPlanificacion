@@ -70,15 +70,15 @@ lista.prototype.pintarProceso = function (){
 		$("#" + cola.divId).empty(); 
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
-				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    " + cola.raiz.tiempo + " seg " + '</span><br>');
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " seg" +'</span><br>');
 			}
 			else{
 				var auxiliar = cola.raiz;
 				while(auxiliar.siguiente){
-					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "    " + auxiliar.tiempo + " seg " +'</span><br>');
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " seg" + '</span><br>');
 					auxiliar = auxiliar.siguiente;
 					if(auxiliar == cola.cola){
-						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "    " + auxiliar.tiempo + " seg " +'</span><br>');
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " seg" +'</span><br>');
 						break;	
 					}
 				}
