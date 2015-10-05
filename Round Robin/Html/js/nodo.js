@@ -27,10 +27,12 @@ Nodo.prototype.setDivId = function (divId){
 //--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.dibujarGanttNodo = function (){
 	var nodo = this;	
-	var cantidad = 1;	
+	var cant = 1;
+	cant = cant + 1;
 	var tiempoEspera;
 	var tiempoProporcionRespuesta;
 	var tiempoProporcionPenalizacion;
+	var tiempoPn;
 	maquina.tiempos[0] = 0; // Tiempo en listo Total
 	maquina.tiempos[1] = 0; // Tiempo en estado critico total
 	maquina.tiempos[2] = 0; // Tiempo total de ejecucion
@@ -40,11 +42,12 @@ Nodo.prototype.dibujarGanttNodo = function (){
 	$(nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.proceso + ':</label>'
 		+'<div class="progress progress-striped" id ="progreso' + nodo.proceso + '"></div>');
 
-	setInterval(function (){
+	setInterval(function (){		
 		nodo.contador = nodo.contador + 1;
 		if(nodo.estado == "listo"){
 			$('#espera').empty();
 			$('#penalizacion').empty();
+			$('#waitingTime').empty();
 			$('#respuesta').empty();
 			var contadorL = 0;
 			contadorL = contadorL + 1;
@@ -56,6 +59,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			tiempoProporcionPenalizacion = (maquina.tiempos[3]*100)/maquina.tiempos[2];
 			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');
 			$('#espera').append(tiempoEspera.toFixed(3) + ' %');
+			$('#waitingTime').append(maquina.tiempos[0] + ' mSeg');
 			$('#penalizacion').append(tiempoProporcionPenalizacion.toFixed(3) + '%');
 			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-success" style="width:'+ (contadorL)*0.5 + '%'+'"></div>');
 		}
@@ -107,13 +111,11 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-primary" style="width:'+ (contadorC)*0.5 + '%'+'"></div>');
 		}
 		else if(nodo.estado == "finalizado"){
-			var contadorF = 0;
+			var contadorF = 0;			
 			contadorF = contadorF + 1;
 			nodo.contadorFinalizado = nodo.contadorFinalizado + 1;
 			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-info" style="width:'+ (contadorF)*0.5 + '%'+'"></div>');
 		}
-		cantidad = cantidad + 1;
 	}, 1000);
-
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------
