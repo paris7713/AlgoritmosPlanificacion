@@ -27,10 +27,12 @@ Nodo.prototype.setDivId = function (divId){
 //--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.dibujarGanttNodo = function (){
 	var nodo = this;	
-	var cantidad = 1;	
+	var cant = 1;
+	cant = cant + 1;
 	var tiempoEspera;
 	var tiempoProporcionRespuesta;
 	var tiempoProporcionPenalizacion;
+	var tiempoPn;
 	maquina.tiempos[0] = 0; // Tiempo en listo Total
 	maquina.tiempos[1] = 0; // Tiempo en estado critico total
 	maquina.tiempos[2] = 0; // Tiempo total de ejecucion
@@ -40,12 +42,15 @@ Nodo.prototype.dibujarGanttNodo = function (){
 	$(nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.proceso + ':</label>'
 		+'<div class="progress progress-striped" id ="progreso' + nodo.proceso + '"></div>');
 
-	setInterval(function (){
+	setInterval(function (){		
 		nodo.contador = nodo.contador + 1;
 		if(nodo.estado == "listo"){
 			$('#espera').empty();
 			$('#penalizacion').empty();
+			$('#waitingTime').empty();
 			$('#respuesta').empty();
+			var contadorL = 0;
+			contadorL = contadorL + 1;
 			nodo.contadorListo = nodo.contadorListo + 1;
 			maquina.tiempos[0] = maquina.tiempos[0] + nodo.contadorListo;
 			maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorListo;
@@ -54,48 +59,63 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			tiempoProporcionPenalizacion = (maquina.tiempos[3]*100)/maquina.tiempos[2];
 			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');
 			$('#espera').append(tiempoEspera.toFixed(3) + ' %');
+			$('#waitingTime').append(maquina.tiempos[0] + ' mSeg');
 			$('#penalizacion').append(tiempoProporcionPenalizacion.toFixed(3) + '%');
-			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-success" style="width:'+ (nodo.contadorListo)*0.02 + '%'+'"></div>');
+			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-success" style="width:'+ (contadorL)*0.5 + '%'+'"></div>');
 		}
 		else if (nodo.estado == "bloqueado"){
 			$('#penalizacion').empty();
 			$('#respuesta').empty();
+			var contadorB = 0;
+			contadorB = contadorB + 1;
 			nodo.contadorBloqueado = nodo.contadorBloqueado + 1;
 			maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorBloqueado;
 			maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorBloqueado;
 			tiempoProporcionPenalizacion = (maquina.tiempos[3]*100)/maquina.tiempos[2];
 			$('#penalizacion').append(tiempoProporcionPenalizacion.toFixed(3) + ' %');
 			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');
-			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-danger" style="width:'+ (nodo.contadorBloqueado)*0.01 + '%'+'"></div>');
+			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-danger" style="width:'+ (contadorB)*0.2 + '%'+'"></div>');
 		}
 		else if (nodo.estado == "suspendido"){
 			$('#penalizacion').empty();
 			$('#respuesta').empty();
+			var contadorS = 0;
+			contadorS = contadorS + 1;
 			nodo.contadorSuspendido = nodo.contadorSuspendido + 1;
 			maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorSuspendido;
 			maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorSuspendido;
 			tiempoProporcionPenalizacion = (maquina.tiempos[3]*100)/maquina.tiempos[2];
 			$('#penalizacion').append(tiempoProporcionPenalizacion.toFixed(3) + ' %');
 			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');
-			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-warning" style="width:'+ (nodo.contadorSuspendido)*0.02 + '%'+'"></div>');
+			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-warning" style="width:'+ (contadorS)*0.5 + '%'+'"></div>');
 		}
 		else if(nodo.estado == "critico"){
 			$('#proporcion').empty();
 			$('#respuesta').empty();
+			var contadorC = 0;
+			contadorC = contadorC + 1;
 			nodo.contadorCritico = nodo.contadorCritico + 1;
 			maquina.tiempos[1] = maquina.tiempos[1] + nodo.contadorCritico;
 			maquina.tiempos[2] = maquina.tiempos[2] + nodo.contadorCritico
 			tiempoProporcionRespuesta = (maquina.tiempos[1]*100)/maquina.tiempos[2];
+			if(tiempoProporcionRespuesta > 40){
+				$('#analisisP').empty();
+				$('#analisisP').append(" bueno");
+			}
+			else{
+				$('#analisisP').empty();
+				$('#analisisP').append(" malo");
+			}
 			$('#proporcion').append(tiempoProporcionRespuesta.toFixed(3) + ' %');
-			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');
-			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-primary" style="width:'+ (nodo.contadorCritico)*0.02 + '%'+'"></div>');
+			$('#respuesta').append(maquina.tiempos[2] + ' mSeg');			
+			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-primary" style="width:'+ (contadorC)*0.5 + '%'+'"></div>');
 		}
 		else if(nodo.estado == "finalizado"){
+			var contadorF = 0;			
+			contadorF = contadorF + 1;
 			nodo.contadorFinalizado = nodo.contadorFinalizado + 1;
-			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-info" style="width:'+ (nodo.contadorFinalizado)*0.1 + '%'+'"></div>');
+			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-info" style="width:'+ (contadorF)*0.5 + '%'+'"></div>');
 		}
-		cantidad = cantidad + 1;
 	}, 1000);
-
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------

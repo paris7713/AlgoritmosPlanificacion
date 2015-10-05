@@ -96,12 +96,7 @@
                             <input type = "submit" id="crearProceso" onclick="crearProceso()" class="btn btn-warning btn-md" value="Crear Proceso">
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4" id = "listaProcesosD">
-                    <h4 align = "center">Lista de procesos</h4>
-                    <ul id = "listaProcesos"></ul>
-                </div>
-                
+                </div>                
             </div>
             
             <div class="col-md-6" id = "recurso">
@@ -149,42 +144,76 @@
             </div>	
         </div>
         <div id = "maquina" class = "row"></div>
+        <hr>
         <div id = "metrica" class = "row">
-            <div class="col-md-4"></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-11">
 				<h2>Métrica</h2>
 				<div class="row"></div>
 				<div class="form-group">
-                    <label class="text col-lg-4 control-label">Porcentaje de tiempo en espera: Tpe = (tl * 100)/T </label>
+                    <label class="text col-lg-5 control-label">Porcentaje de tiempo en espera: Tpe = (tl * 100)/T </label>
+                    <div class="col-lg-2 texto">
+                        <label class="text col-lg-8 control-label" id="espera"></label>
+                    </div>
                     <div class="col-lg-4 texto">
-                        <label class="text col-lg-4 control-label" id="espera"></label>
+                        <label class="text col-lg-12 control-label">Porcentaje de tiempo en la cola de Listo</label>
                     </div>
                 </div>
 				<div class="row"></div>
 				<div class="form-group">
-                    <label class="text col-lg-4 control-label">Tiempo de respuesta: T = tb + ts + tc + tl</label>
+                    <label class="text col-lg-5 control-label">Tiempo de respuesta: T = tb + ts + tc + tl</label>
+                    <div class="col-lg-2 texto">
+                         <label class="text col-lg-8 control-label" id="respuesta"></label>
+                    </div>
                     <div class="col-lg-4 texto">
-                         <label class="text col-lg-4 control-label" id="respuesta"></label>
+                        <label class="text col-lg-9 control-label">Tiempo total de respuesta</label>
                     </div>
                 </div>
 				<div class="row"></div>
                 <div class="form-group">
-                    <label class="text col-lg-4 control-label">Proporcion de penalizacion: Pp = [(tb + ts + tl)* 100]/T </label>
+                    <label class="text col-lg-5 control-label">Proporcion de penalizacion: Pp = [(tb + ts + tl)* 100]/T </label>
+                    <div class="col-lg-2 texto">
+                        <label class="text col-lg-8 control-label" id="penalizacion"></label>
+                    </div>
                     <div class="col-lg-4 texto">
-                        <label class="text col-lg-4 control-label" id="penalizacion"></label>
+                        <label class="text col-lg-12 control-label">Porcentaje de Tiempo fuera del procesador</label>
                     </div>
                  </div>
                 <div class="row"></div>
                 <div class="form-group">
-                    <label class="text col-lg-4 control-label">Proporcion de respuesta: Pr = (tc * 100)/T</label>
+                    <label class="text col-lg-5 control-label">Proporcion de respuesta: Pr = (tc * 100)/T</label>
+                    <div class="col-lg-2 texto">
+                        <label class="text col-lg-8 control-label" id="proporcion"></label>
+                    </div>
                     <div class="col-lg-4 texto">
-                        <label class="text col-lg-4 control-label" id="proporcion"></label>
+                        <label class="text col-lg-12 control-label">Porcentaje de uso del procesador</label>
                     </div>
                 </div>
-                
                 <div class="row"></div>
                 <div class="form-group">
-                    <label class="text col-lg-2 control-label">Conversiones</label>
-                    <div class="col-lg-4 texto">
+                    <label class="text col-lg-5 control-label">El porcentaje de utilizacion de la CPU es </label>
+                    <div class="col-lg-2 texto">
+                        <label class="text col-lg-8 control-label" id = "analisisP"></label>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="form-group">
+                    <label class="text col-lg-5 control-label">Waiting time Total </label>
+                    <div class="col-lg-2 texto">
+                        <label class="text col-lg-8 control-label" id = "waitingTime"></label>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="form-group">
+                    <label class="text col-lg-5 control-label">Tiempo de retorno </label>
+                    <div class="col-lg-2 texto">
+                        <ul id = "tiempoN"></ul>
+                    </div>
+                </div>
+                <div class="row"></div>
+                <div class="form-group">
+                    <h3>Conversiones</h3>
+                    <div class="col-lg-6 texto">
                         <label class="text col-lg-10 control-label">tl = Tiempo en cola de listo</label>
                         <label class="text col-lg-10 control-label">tb = Tiempo en cola de bloqueado</label>
                         <label class="text col-lg-10 control-label">ts = Tiempo en cola de suspendido</label>

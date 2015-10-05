@@ -71,7 +71,7 @@ lista.prototype.pintarProceso = function (){
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
 				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " seg" +'</span><br>');
-			}
+			} 
 			else{
 				var auxiliar = cola.raiz;
 				while(auxiliar.siguiente){
