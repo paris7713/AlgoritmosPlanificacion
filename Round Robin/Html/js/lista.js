@@ -5,6 +5,7 @@ var lista = function (){
 	this.longitud = 0;
 	this.divId;
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //inserta un nodo en la lista
 lista.prototype.insertarNodo = function (nodo){
 	var nodoEntreante = nodo;
@@ -41,7 +42,7 @@ lista.prototype.insertarNodo = function (nodo){
 		}
 	}
 }
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Extraer el primer nodo de la lista
 lista.prototype.extraerNodo = function extraerNodo(){
 	if(this.longitud == 0){
@@ -63,7 +64,7 @@ lista.prototype.extraerNodo = function extraerNodo(){
 		}
 	}	
 }
-//---------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 lista.prototype.pintarProceso = function (){
 	var cola = this;
 	setInterval(function(){

@@ -54,6 +54,6 @@ Maquina.prototype.initProceso = function(){
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.pararProceso = function(){
 	for (var index in this.procesadores){
-		this.procesadores[index].pararProcesar();
+		this.procesadores[index].pausarProcesador();
 	}
 }
