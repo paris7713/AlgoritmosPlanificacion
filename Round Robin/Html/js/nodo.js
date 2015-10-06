@@ -59,7 +59,9 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			maquina.tiempos[3] = maquina.tiempos[3] + nodo.contadorListo;
 			tiempoEspera = (maquina.tiempos[0]*100)/maquina.tiempos[2];
 			tiempoProporcionPenalizacion = (maquina.tiempos[3]*100)/maquina.tiempos[2];
-			$('#respuesta').append('<li  id = "respuesta' + nodo.proceso + '"></li>');
+			if($('#respuesta' + nodo.proceso).length == 0){
+				$('#respuesta').append('<li id = "respuesta' + nodo.proceso + '"></li>');	
+			}
 			respuesta = nodo.contadorListo + nodo.contadorBloqueado + nodo.contadorCritico + nodo.contadorSuspendido;
 			$('#respuesta'+ nodo.proceso).append(respuesta  + ' mSeg');
 			$('#espera').append(tiempoEspera.toFixed(3) + ' %');
