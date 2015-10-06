@@ -7,6 +7,7 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
     this.colaFinalizado = new lista();
     this.dibujarProcesador(divId);
     this.hiloProceso;
+    this.estadoProcesador;
 	this.algoritmoPlanificacion = AlgoritmoPlanificacion;
     this.procesar();
 }
@@ -14,6 +15,7 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
 	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 2000, this);
+    this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
@@ -112,4 +114,9 @@ Procesador.prototype.dibujarProcesador = function (divId){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.pararProcesar = function (){
     clearTimeout(this.hiloProceso);   
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.pausarProcesador = function (){
+    clearTimeout(this.hiloProceso);
+    this.estadoProcesador = "pausado";   
 }

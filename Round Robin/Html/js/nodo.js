@@ -2,7 +2,8 @@
 var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
 	this.proceso = nombre;
 	this.tiempo = tiempo;
-	this.metrica = metrica;	
+	this.metrica = metrica;
+	this.metricaTmp = metrica;
 	this.procesador = procesador;
 	this.siguiente = null;
 	this.anterior = null;
