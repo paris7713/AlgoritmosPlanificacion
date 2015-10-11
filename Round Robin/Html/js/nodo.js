@@ -17,6 +17,7 @@ var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
 	this.contadorFinalizado = 0;
 	this.flagBloqueado = false;
 	this.divId;
+	this.hiloDibujador;
 } 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.setEstado = function (estado){
@@ -43,7 +44,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 	$(nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.proceso + ':</label>'
 		+'<div class="progress progress-striped" id ="progreso' + nodo.proceso + '"></div>');
 
-	setInterval(function (){		
+	this.hiloDibujador = setInterval(function (){		
 		nodo.contador = nodo.contador + 1;
 		if(nodo.estado == "listo"){
 			var contadorL = 0;
@@ -127,6 +128,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			var contadorS = 0;
 			contadorS = contadorS + 1;
 			nodo.contadorSuspendido = nodo.contadorSuspendido + 1;
+			this.flagBloqueado = false;
 			
 			//Limpieza de divs
 			$('#penalizacion'+ nodo.proceso).remove();
@@ -154,6 +156,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			var contadorC = 0;
 			contadorC = contadorC + 1;
 			nodo.contadorCritico = nodo.contadorCritico + 1;
+			this.flagBloqueado = false;
 			
 			//Limpieza de divs
 			$('#proporcion'+ nodo.proceso).remove();
@@ -182,6 +185,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			contadorF = contadorF + 1;
 			nodo.contadorFinalizado = nodo.contadorFinalizado + 1;
 			tiempoProporcionRespuestaTotal = 0;
+			this.flagBloqueado = false;
 			
 			//Calculo metrica uso del procesador
 			proporcionRespuesta.push(tiempoProporcionRespuesta);
@@ -201,5 +205,9 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-info" style="width:'+ (contadorF)*0.5 + '%'+'"></div>');
 		}
 	}, 1000);
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------
+Nodo.prototype.pararDibujar = function  (){
+	clearInterval(this.hiloDibujador);
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------

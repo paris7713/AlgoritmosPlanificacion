@@ -118,5 +118,27 @@ Procesador.prototype.pararProcesar = function (){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.pausarProcesador = function (){
     clearTimeout(this.hiloProceso);
-    this.estadoProcesador = "pausado";   
+    this.estadoProcesador = "pausado";
+    if(this.colaSuspendido.longitud > 0){
+        this.pausarDibujador(this.colaSuspendido);    
+    }
+    if(this.colaListo.longitud > 0){
+        this.pausarDibujador(this.colaListo);    
+    }
+    
+    if(this.colaBloqueado.longitud > 0){
+        this.pausarDibujador(this.colaBloqueado);    
+    }
+    
+    if(this.colaCritico.longitud > 0){
+        this.pausarDibujador(this.colaCritico);    
+    }        
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.pausarDibujador = function (cola){
+    var actual = cola.raiz();
+     
+    while(cola.siguiente){
+        actual.pararDibujar();    
+    } 
 }
