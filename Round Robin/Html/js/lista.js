@@ -91,3 +91,49 @@ lista.prototype.pintarProceso = function (){
 lista.prototype.setDivId = function (divId){
 	this.divId = divId;
 }
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//ordenarLista
+lista.prototype.ordenarLista = function (){	// Ordena por burbuja
+	var colaAuxiliar;
+	var prim;
+	var seg;
+	
+	if(this.longitud == 0){
+		alert("Nada que ordenar");
+	}
+	else{
+		if(this.longitud == 1){
+			prim = this.extraerNodo();
+			colaAuxiliar.insertarNodo(prim);			
+		}
+		else{
+			prim = this.extraerNodo();			
+			seg = this.extraerNodo();
+			prim.anterior = null;
+			prim.siguiente = null;
+			seg.anterior = null;
+			seg.siguiente = null;
+			
+			if(prim.tiempo <= seg.tiempo){ //Primero menor que segundo
+				colaAuxiliar.insertarNodo(prim);
+				colaAuxiliar.insertarNodo(seg);
+			}
+			else{ //Segundo menor que primero
+				colaAuxiliar.insertarNodo(seg);
+				colaAuxiliar.insertarNodo(prim);
+			}
+			if (this.longitud > 0){
+				this.ordenarLista();
+			}				
+		}
+		return colaAuxiliar;
+	}
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//ordenarColaTotal
+lista.prototype.ordenarCola = function (lista){ //Ejecuta el maximo de combinaciones posibles segun el rendimiento de burbuja 
+	for(var i = 1; i < (lista.longitud*lista.longitud); i ++){
+		lista = lista.ordenarLista();
+	}
+	return lista;
+}	
