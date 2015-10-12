@@ -1,14 +1,15 @@
-var jsf = function (){
-	this.hiloOrdenarColaListo;
-	this.hiloActualInterval;
-	this.hiloTimeOut;
-	this.procesador;		
+var jsf = function (procesador){
+	this.hiloOrdenarColaListo = null;
+	this.hiloActualInterval = null;
+	this.hiloTimeOut = null;
+	this.procesador = procesador;		
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
-jsf.prototype.procesar = function (procesador){
-	this.procesador = procesador;
-	this.initProcesar();
+jsf.prototype.procesar = function (){
+	if(this.hiloOrdenarColaListo == null){
+		this.ordenarColaListoProcesador();
+	}
 	
 	if(this.procesador.colaCritico.longitud > 0){
 		if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
@@ -39,29 +40,10 @@ jsf.prototype.procesar = function (procesador){
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
 				maquina.recursos[proceso.recurso].disponible  = 0;
-				var tmp = setInterval(function (){
+				this.hiloActualInterval = setInterval(function (){
 					this.procesador.colaCritico.raiz.tiempo = this.procesador.colaCritico.raiz.tiempo - 1;
-					if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
-						if(maquina.validarRecurso(this.procesador.colaListo.raiz.recurso)){
-							var auxiliarCritico = this.procesador.colaCritico.extraerNodo();
-							var auxiliarListo = this.procesador.colaListo.extraerNodo();
-							
-							maquina.liberarRecurso(auxiliarCritico.recurso);
-							auxiliarCritico.estado = 'suspendido';
-							this.procesador.colaSuspendido.insertarNodo(auxiliarCritico);
-							
-							auxiliarListo.estado = 'critico';
-							this.procesador.colaCritico.insertarNodo(auxiliarListo);	
-							maquina.recursos[auxiliarListo.recurso].disponible  = 0;							
-						}
-						else{
-							var auxiliarListo = this.procesador.colaListo.extraerNodo();
-							auxiliarListo.estado = 'bloqueado';
-							this.procesador.colaBloqueo.insertarNodo(auxiliarListo);							
-						}
-					}
 				}, 1000);
-				setTimeout(function (){
+				this.hiloActualTimeOut = setTimeout(function (){
 					clearInterval(tmp);
 					var finalizado = this.procesador.colaCritico.extraerNodo();
 					finalizado.estado = 'finalizado';
@@ -94,7 +76,15 @@ jsf.prototype.procesar = function (procesador){
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.initProcesar = function (procesador){
-	this.hiloOrdenarCola = setInterval(function (){
-		procesador.colaListo.ordenarLista();
-	}, 500);
+	this.procesador = procesador;
+	var obj = this;
+	obj.hiloProceso = procesador.hiloProceso = setInterval(function (){
+		obj.procesar();
+	}, 2000);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+jsf.prototype.ordenarColaListoProcesador = function (){
+	this.hiloOrdenarColaListo = setInterval(function (obj){
+		obj.procesador.colaListo.ordenarBurbujaSergio();
+	}, 5000, this);
 }
