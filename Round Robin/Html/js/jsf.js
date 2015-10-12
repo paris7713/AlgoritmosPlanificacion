@@ -8,7 +8,7 @@ var jsf = function (){
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.procesar = function (procesador){
 	this.procesador = procesador;
-	this.initProcear();
+	this.initProcesar();
 	
 	if(this.procesador.colaCritico.longitud > 0){
 		if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
