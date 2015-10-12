@@ -12,25 +12,30 @@ jsf.prototype.procesar = function (){
 	}
 	
 	if(this.procesador.colaCritico.longitud > 0){
-		if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
-			if(maquina.validarRecurso(this.procesador.colaListo.raiz.recurso)){
-				var auxiliarCritico = this.procesador.colaCritico.extraerNodo();
-				var auxiliarListo = this.procesador.colaListo.extraerNodo();
-				
-				maquina.liberarRecurso(auxiliarCritico.recurso);
-				auxiliarCritico.estado = 'suspendido';
-				this.procesador.colaSuspendido.insertarNodo(auxiliarCritico);
-				
-				auxiliarListo.estado = 'critico';
-				this.procesador.colaCritico.insertarNodo(auxiliarListo);	
-				maquina.recursos[auxiliarListo.recurso].disponible  = 0;							
-			}
-			else{
-				var auxiliarListo = this.procesador.colaListo.extraerNodo();
-				auxiliarListo.estado = 'bloqueado';
-				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);							
-			}
-		}
+		if(this.procesador.colaListo.longitud > 0){
+			if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
+				if(maquina.validarRecurso(this.procesador.colaListo.raiz.recurso)){
+					this.hiloActualInterval = null;
+					this.hiloTimeOut = null;
+					
+					var auxiliarCritico = this.procesador.colaCritico.extraerNodo();
+					var auxiliarListo = this.procesador.colaListo.extraerNodo();
+					
+					maquina.liberarRecurso(auxiliarCritico.recurso);
+					auxiliarCritico.estado = 'suspendido';
+					this.procesador.colaSuspendido.insertarNodo(auxiliarCritico);
+					
+					auxiliarListo.estado = 'critico';
+					this.procesador.colaCritico.insertarNodo(auxiliarListo);	
+					maquina.recursos[auxiliarListo.recurso].disponible  = 0;							
+				}
+				else{
+					var auxiliarListo = this.procesador.colaListo.extraerNodo();
+					auxiliarListo.estado = 'bloqueado';
+					this.procesador.colaBloqueo.insertarNodo(auxiliarListo);							
+				}
+			}//end if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo)	
+		}// end if(this.procesador.colaListo.longitud > 0)	
 	}
 	else{
 		if(this.procesador.colaListo.longitud > 0){
@@ -40,15 +45,17 @@ jsf.prototype.procesar = function (){
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
 				maquina.recursos[proceso.recurso].disponible  = 0;
-				this.hiloActualInterval = setInterval(function (){
-					this.procesador.colaCritico.raiz.tiempo = this.procesador.colaCritico.raiz.tiempo - 1;
-				}, 1000);
-				this.hiloActualTimeOut = setTimeout(function (){
-					clearInterval(tmp);
-					var finalizado = this.procesador.colaCritico.extraerNodo();
+				this.hiloActualInterval = setInterval(function (obj){
+					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
+				}, 1000, this);
+				this.hiloActualTimeOut = setTimeout(function (obj){
+					var finalizado = obj.procesador.colaCritico.extraerNodo();
+					
 					finalizado.estado = 'finalizado';
-					this.procesador.colaFinalizado.insertarNodo(finalizado);
-				}, this.procesador.colaCritico.raiz.tiempo * 1000);
+					obj.procesador.colaFinalizado.insertarNodo(finalizado);
+					maquina.liberarRecurso(finalizado.recurso);
+					clearInterval(obj.hiloActualInterval);
+				}, this.procesador.colaCritico.raiz.tiempo * 1000, this);
 			}
 			else{
 				var auxiliarListo = this.procesador.colaListo.extraerNodo();
