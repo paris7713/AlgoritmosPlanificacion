@@ -8,13 +8,16 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
     this.dibujarProcesador(divId);
     this.hiloProceso;
     this.estadoProcesador;
-	this.algoritmoPlanificacion = AlgoritmoPlanificacion;
+	this.algoritmoPlanificacion = new AlgoritmoPlanificacion(this);
     this.procesar();
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
-	this.hiloProceso = setInterval(this.algoritmoPlanificacion.prototype.procesar, 2000, this);
+    var obj = this;
+    this.hiloProceso = setInterval(function (){
+        obj.algoritmoPlanificacion.procesar();
+    }, 2000);
     this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------

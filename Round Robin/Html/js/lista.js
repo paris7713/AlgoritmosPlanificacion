@@ -33,8 +33,7 @@ lista.prototype.insertarNodo = function (nodo){
 		}
 		else{
 			auxiliar = this.cola;
-			auxiliar.anterior = this.cola.anterior;
-			this.cola.anterior = null;			
+			auxiliar.anterior = this.cola.anterior;			
 			this.cola = nodoEntreante;
 			auxiliar.siguiente = this.cola;
 			this.cola.anterior = auxiliar;
@@ -131,9 +130,58 @@ lista.prototype.ordenarLista = function (){	// Ordena por burbuja
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //ordenarColaTotal
-lista.prototype.ordenarCola = function (lista){ //Ejecuta el maximo de combinaciones posibles segun el rendimiento de burbuja 
-	for(var i = 1; i < (lista.longitud*lista.longitud); i ++){
+lista.prototype.ordenarCola = function (){ //Ejecuta el maximo de combinaciones posibles segun el rendimiento de burbuja 
+	for(var i = 1; i < (this.longitud * this.longitud); i ++){
 		lista = lista.ordenarLista();
 	}
 	return lista;
-}	
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+lista.prototype.ordenarBurbujaSergio = function (){
+	if(this.longitud == 0 || this.longitud == 1){
+		return;
+	}
+	
+	for(var j = 0; j < this.longitud; j++){
+		var nodo = this.raiz;
+		var nodoSiguiente = nodo.siguiente;
+		for(var i = 0; i < this.longitud; i++){
+			
+			if(nodoSiguiente == null){
+				break;
+			}
+			
+			if(parseInt(nodo.tiempo) > parseInt(nodoSiguiente.tiempo)){
+				var nodoAux = nodoSiguiente.siguiente;
+				var nodoAuxAnterior = nodo.anterior;
+				//.... x , y , z ....  --->  ..... x, z, y
+				nodoSiguiente.anterior = nodo.anterior;
+				nodoSiguiente.siguiente = nodo;
+				
+				nodo.siguiente = nodoAux;
+				nodo.anterior = nodoSiguiente;
+				
+				if(nodo == this.raiz){
+					this.raiz= nodoSiguiente;	
+				}
+				else{
+					nodoAuxAnterior.siguiente = nodoSiguiente;
+				}
+				if(nodoSiguiente == this.cola){
+					this.cola = nodo;
+				}
+				else{
+					nodoAux.anterior = nodo;
+				}
+					
+				nodoSiguiente = nodo.siguiente;
+			}
+			else{
+				nodo = nodo.siguiente;
+				nodoSiguiente = nodo.siguiente;
+			}
+			
+		}//end for i		
+	}//end for j
+
+}
