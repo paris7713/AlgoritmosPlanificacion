@@ -7,8 +7,11 @@ function crearProceso(){
 	
 	if(flag == 'Round Robin')
 		metrica = Math.floor((tiempo * 30)/100);
-	else
+	else{
 		metrica = $("#prioridadT").val();
+		if (metrica == undefined)
+			metrica = "-"
+	}
 		
 	maquina.crearProceso(new Nodo(nombre, tiempo, metrica, recurso, procesador, "listo"));
 	//maquina.listar(nombre, '#listaProcesos');
