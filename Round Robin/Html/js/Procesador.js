@@ -17,7 +17,7 @@ Procesador.prototype.procesar = function (Proceso){
     var obj = this;
     this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
-    }, 2000);
+    }, 1000);
     this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
