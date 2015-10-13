@@ -70,15 +70,15 @@ lista.prototype.pintarProceso = function (){
 		$("#" + cola.divId).empty(); 
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
-				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " seg" +'</span><br>');
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica +'</span><br>');
 			} 
 			else{
 				var auxiliar = cola.raiz;
 				while(auxiliar.siguiente){
-					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " seg" + '</span><br>');
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + '</span><br>');
 					auxiliar = auxiliar.siguiente;
 					if(auxiliar == cola.cola){
-						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " seg" +'</span><br>');
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica +'</span><br>');
 						break;	
 					}
 				}
@@ -184,4 +184,54 @@ lista.prototype.ordenarBurbujaSergio = function (){
 		}//end for i		
 	}//end for j
 
+}
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//ordenarPorPrioridad
+lista.prototype.ordenarListaPrioridad = function (){
+	if(this.longitud == 0 || this.longitud == 1){
+		return;
+	}
+	
+	for(var j = 0; j < this.longitud; j++){
+		var nodo = this.raiz;
+		var nodoSiguiente = nodo.siguiente;
+		for(var i = 0; i < this.longitud; i++){
+			
+			if(nodoSiguiente == null){
+				break;
+			}
+			
+			if(parseInt(nodo.metrica) > parseInt(nodoSiguiente.metrica)){
+				var nodoAux = nodoSiguiente.siguiente;
+				var nodoAuxAnterior = nodo.anterior;
+				//.... x , y , z ....  --->  ..... x, z, y
+				nodoSiguiente.anterior = nodo.anterior;
+				nodoSiguiente.siguiente = nodo;
+				
+				nodo.siguiente = nodoAux;
+				nodo.anterior = nodoSiguiente;
+				
+				if(nodo == this.raiz){
+					this.raiz= nodoSiguiente;	
+				}
+				else{
+					nodoAuxAnterior.siguiente = nodoSiguiente;
+				}
+				if(nodoSiguiente == this.cola){
+					this.cola = nodo;
+				}
+				else{
+					nodoAux.anterior = nodo;
+				}
+					
+				nodoSiguiente = nodo.siguiente;
+			}
+			else{
+				nodo = nodo.siguiente;
+				nodoSiguiente = nodo.siguiente;
+			}
+			
+		}//end for i		
+	}//end for j
 }
