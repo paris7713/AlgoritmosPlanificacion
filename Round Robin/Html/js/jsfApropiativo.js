@@ -17,6 +17,9 @@ jsf.prototype.procesar = function (){
 		if(this.procesador.colaListo.longitud > 0){
 			var proceso = this.procesador.colaListo.raiz;
 			if(maquina.validarRecurso(proceso.recurso)){
+				clearInterval(this.hiloActualInterval);
+				clearTimeout(this.hiloTimeOut); 
+				
 				proceso = this.procesador.colaListo.extraerNodo();
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
@@ -24,9 +27,8 @@ jsf.prototype.procesar = function (){
 				this.hiloActualInterval = setInterval(function (obj){
 					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
 				}, 1000, this);
-				this.hiloActualTimeOut = setTimeout(function (obj){
+				this.hiloTimeOut = setTimeout(function (obj){
 					var finalizado = obj.procesador.colaCritico.extraerNodo();
-					
 					finalizado.estado = 'finalizado';
 					obj.procesador.colaFinalizado.insertarNodo(finalizado);
 					maquina.liberarRecurso(finalizado.recurso);
@@ -39,21 +41,24 @@ jsf.prototype.procesar = function (){
 				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
 			}
 		}
-		
-		if(this.procesador.colaSuspendido.longitud > 0){
-			setTimeout(function(){
-				var raiz = this.procesador.colaSuspendido.extraerNodo();
-				raiz.estado = "listo";
-				this.procesador.colaListo.insertarNodo(raiz);	
-			}, 1000);
-		}
-		
-		if(this.procesador.colaBloqueo.longitud > 0){
-			if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
-				var raiz = this.procesador.colaBloqueo.extraerNodo();
-				raiz.estado = "listo";
-				this.procesador.colaListo.insertarNodo(raiz);	
+	}
+	
+	if(this.procesador.colaSuspendido.longitud > 0){
+		setTimeout(function(obj){
+			if(obj.procesador.colaSuspendido.longitud == 0){
+				return;
 			}
+			var raiz = obj.procesador.colaSuspendido.extraerNodo();
+			raiz.estado = "listo";
+			obj.procesador.colaListo.insertarNodo(raiz);	
+		}, 3000, this);
+	}
+	
+	if(this.procesador.colaBloqueo.longitud > 0){
+		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
+			var raiz = this.procesador.colaBloqueo.extraerNodo();
+			raiz.estado = "listo";
+			this.procesador.colaListo.insertarNodo(raiz);	
 		}
 	}
 }

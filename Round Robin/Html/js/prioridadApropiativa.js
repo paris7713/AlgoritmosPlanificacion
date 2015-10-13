@@ -17,18 +17,19 @@ prioridadApropiativa.prototype.procesar = function (){
 	else{
 		if(this.procesador.colaListo.longitud > 0){
 			var proceso = this.procesador.colaListo.raiz;
-			
 			if(maquina.validarRecurso(proceso.recurso)){
+				clearInterval(this.hiloActualInterval);
+				clearTimeout(this.hiloTimeOut); 
+				
 				proceso = this.procesador.colaListo.extraerNodo();
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
-				maquina.recursos[proceso.recurso].disponible = 0;
+				maquina.recursos[proceso.recurso].disponible  = 0;
 				this.hiloActualInterval = setInterval(function (obj){
 					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
 				}, 1000, this);
-				this.hiloActualTimeOut = setTimeout(function (obj){
+				this.hiloTimeOut = setTimeout(function (obj){
 					var finalizado = obj.procesador.colaCritico.extraerNodo();
-					
 					finalizado.estado = 'finalizado';
 					obj.procesador.colaFinalizado.insertarNodo(finalizado);
 					maquina.liberarRecurso(finalizado.recurso);
@@ -41,6 +42,7 @@ prioridadApropiativa.prototype.procesar = function (){
 				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
 			}
 		}
+	}
 				
 		if(this.procesador.colaBloqueo.longitud > 0){
 			if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
@@ -48,8 +50,7 @@ prioridadApropiativa.prototype.procesar = function (){
 				raiz.estado = "listo";
 				this.procesador.colaListo.insertarNodo(raiz);	
 			}
-		}
-	}
+		}	
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 prioridadApropiativa.prototype.initProcesar = function (procesador){
