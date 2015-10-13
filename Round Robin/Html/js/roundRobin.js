@@ -93,7 +93,7 @@ RoundRobin.prototype.procesar = function (procesador){
 				var raiz = procesador.colaSuspendido.extraerNodo();
 				raiz.estado = "listo";
 				procesador.colaListo.insertarNodo(raiz);	
-			}, 1000);
+			}, 3000);
 		}
 		
 		if(procesador.colaBloqueo.longitud > 0){
