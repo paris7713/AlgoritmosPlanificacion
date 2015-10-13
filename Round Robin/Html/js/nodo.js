@@ -263,18 +263,18 @@ Nodo.prototype.dibujarGanttNodo = function (){
 				
 				if(flag == 1){	
 					$('#tiempoes').empty();				
-					$('#tiempoes').append("El algoritmo es favorable");
+					$('#tiempoes').append("El algoritmo tiene un rendimiento poco favorable");
 				}	
 				else{
 					if(flag == 2){	
 						$('#tiempoes').empty();										
-						$('#tiempoes').append("El algoritmo es eficiente");
+						$('#tiempoes').append("El algoritmo es favorable");
 					}	
 					else{
 						if(flag == 3){	
-						$('#tiempoes').empty();										
-						$('#tiempoes').append("El algoritmo es excelente");
-					}	
+							$('#tiempoes').empty();										
+							$('#tiempoes').append("El algoritmo es eficiente");
+						}	
 					}
 				}										
 			}
