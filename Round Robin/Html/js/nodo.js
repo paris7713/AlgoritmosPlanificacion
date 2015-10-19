@@ -240,8 +240,9 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			
 			sumaTiempoPenalizacion.push(tiempoProporcionPenalizacion);	
 			for(var e = 0; e < sumaTiempoPenalizacion.length; e ++){
-				tiempoPenalizacionTotal = tiempoPenalizacionTotal + sumaTiempoPenalizacion[e];
+				tiempoPenalizacionTotal = tiempoPenalizacionTotal + tiempoPenalizacionTotal[e];
 			}	
+			tiempoPenalizacionTotal = tiempoPenalizacionTotal/sumaTiempoEspera.length;
 			
 			if(tiempoProporcionRespuestaTotal > 40){
 				$('#analisisP').empty();
@@ -256,7 +257,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 					flag = flag + 1;
 				}	
 				
-				if(tiempoPenalizacionTotal <= 50){
+				if(tiempoPenalizacionTotal/10 <= 50){
 					flag = flag + 1;
 				}
 				
