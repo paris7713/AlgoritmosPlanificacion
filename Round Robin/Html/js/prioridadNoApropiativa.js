@@ -1,4 +1,4 @@
-var jsf = function (procesador){
+var prioridadNoApropiativa = function (procesador){
 	this.hiloOrdenarColaListo = null;
 	this.hiloActualInterval = null;
 	this.hiloTimeOut = null;
@@ -6,7 +6,7 @@ var jsf = function (procesador){
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
-jsf.prototype.procesar = function (){
+prioridadNoApropiativa.prototype.procesar = function (){
 	if(this.procesador.estadoProcesador == "pausado"){
 		clearInterval(this.hiloOrdenarColaListo);
 		clearInterval(this.hiloActualInterval);
@@ -16,13 +16,38 @@ jsf.prototype.procesar = function (){
 		this.hiloTimeOut = null;
 		return;
 	}
+	
 	if(this.hiloOrdenarColaListo == null){
 		this.ordenarColaListoProcesador();
 	}
 	
 	if(this.procesador.colaCritico.longitud > 0){
+		if(this.hiloActualInterval == null && this.hiloTimeOut == null){
+			this.hiloActualInterval = setInterval(function (obj){
+				if(obj.procesador.estadoProcesador == "pausado"){
+					clearInterval(obj.hiloOrdenarColaListo);
+					clearInterval(obj.hiloActualInterval);
+					clearTimeout(obj.hiloTimeOut);
+					obj.hiloOrdenarColaListo = null;
+					obj.hiloActualInterval = null;
+					obj.hiloTimeOut = null;
+					return;
+				}
+				obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
+			}, 1000, this);
+			this.hiloTimeOut = setTimeout(function (obj){
+				if(obj.procesador.estado == "pausado"){
+					return;
+				}
+				var finalizado = obj.procesador.colaCritico.extraerNodo();
+				finalizado.estado = 'finalizado';
+				obj.procesador.colaFinalizado.insertarNodo(finalizado);
+				maquina.liberarRecurso(finalizado.recurso);
+				clearInterval(obj.hiloActualInterval);
+			}, this.procesador.colaCritico.raiz.tiempo * 1000, this);	
+		}
 		if(this.procesador.colaListo.longitud > 0){
-			if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo){
+			if(this.procesador.colaListo.raiz.metrica < this.procesador.colaCritico.raiz.metrica){
 				if(maquina.validarRecurso(this.procesador.colaListo.raiz.recurso)){
 					clearInterval(this.hiloActualInterval);
 					clearTimeout(this.hiloTimeOut);
@@ -37,7 +62,6 @@ jsf.prototype.procesar = function (){
 					auxiliarListo.estado = 'critico';
 					this.procesador.colaCritico.insertarNodo(auxiliarListo);	
 					maquina.recursos[auxiliarListo.recurso].disponible  = 0;
-					
 					this.hiloActualInterval = setInterval(function (obj){
 						if(obj.procesador.estadoProcesador == "pausado"){
 							clearInterval(obj.hiloOrdenarColaListo);
@@ -61,13 +85,8 @@ jsf.prototype.procesar = function (){
 						clearInterval(obj.hiloActualInterval);
 					}, this.procesador.colaCritico.raiz.tiempo * 1000, this);
 				}
-				else{
-					/*var auxiliarListo = this.procesador.colaListo.extraerNodo();
-					auxiliarListo.estado = 'bloqueado';
-					this.procesador.colaBloqueo.insertarNodo(auxiliarListo);*/							
-				}
-			}//end if(this.procesador.colaListo.raiz.tiempo < this.procesador.colaCritico.raiz.tiempo)	
-		}// end if(this.procesador.colaListo.longitud > 0)
+			}
+		}
 	}
 	else{
 		if(this.procesador.colaListo.longitud > 0){
@@ -121,7 +140,7 @@ jsf.prototype.procesar = function (){
 			obj.procesador.colaListo.insertarNodo(raiz);	
 		}, 3000, this);
 	}
-	
+		
 	if(this.procesador.colaBloqueo.longitud > 0){
 		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
 			var raiz = this.procesador.colaBloqueo.extraerNodo();
@@ -131,7 +150,7 @@ jsf.prototype.procesar = function (){
 	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-jsf.prototype.initProcesar = function (procesador){
+prioridadNoApropiativa.prototype.initProcesar = function (procesador){
 	this.procesador = procesador;
 	var obj = this;
 	obj.hiloProceso = procesador.hiloProceso = setInterval(function (){
@@ -139,9 +158,8 @@ jsf.prototype.initProcesar = function (procesador){
 	}, 2000);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-jsf.prototype.ordenarColaListoProcesador = function (){
+prioridadNoApropiativa.prototype.ordenarColaListoProcesador = function (){
 	this.hiloOrdenarColaListo = setInterval(function (obj){
-		obj.procesador.colaListo.ordenarBurbujaSergio();
+		obj.procesador.colaListo.ordenarListaPrioridad();
 	}, 500, this);
 }
-//---------------------------------------------------------------------------------------------------------------------------------
