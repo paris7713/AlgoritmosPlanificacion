@@ -20,12 +20,12 @@ Maquina.prototype.agregarProcesador = function (nombre, AlgoritmoPlanificacion, 
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.crearProceso = function (nodo){
-	if(this.validarRecurso(nodo.recurso)){		
+	//if(this.validarRecurso(nodo.recurso)){		
 		this.procesadores[nodo.procesador].insertarProceso(nodo);
-	}
-	else{
+	//}
+	/*else{
 		this.procesadores[nodo.procesador].bloquearProceso(nodo);
-	}
+	}*/
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.validarRecurso = function (recurso){

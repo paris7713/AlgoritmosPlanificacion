@@ -89,18 +89,7 @@ prioridadApropiativa.prototype.procesar = function (){
 			}
 		}
 	}
-	
-	if(this.procesador.colaSuspendido.longitud > 0){
-		setTimeout(function(obj){
-			if(obj.procesador.colaSuspendido.longitud == 0){
-				return;
-			}
-			var raiz = obj.procesador.colaSuspendido.extraerNodo();
-			raiz.estado = "listo";
-			obj.procesador.colaListo.insertarNodo(raiz);	
-		}, 3000, this);
-	}
-	
+		
 	if(this.procesador.colaBloqueo.longitud > 0){
 		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
 			var raiz = this.procesador.colaBloqueo.extraerNodo();

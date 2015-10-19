@@ -51,8 +51,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 	$(nodo.divId).append('<label class="text col-lg-2 control-label">Proceso ' + nodo.proceso + ':</label>'
 		+'<div class="progress progress-striped" id ="progreso' + nodo.proceso + '"></div>');
 
-	this.hiloDibujador = setInterval(function (){
-		
+	this.hiloDibujador = setInterval(function (){	
 		nodo.contador = nodo.contador + 1;
 		if(nodo.estado == "listo"){
 			var contadorL = 0;
