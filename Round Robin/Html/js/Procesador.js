@@ -143,5 +143,62 @@ Procesador.prototype.pausarDibujador = function (cola){
      
     while(cola.siguiente){
         actual.pararDibujar();    
-    } 
+    }
 }
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.calcularMetrica = function (){
+    var nodoActual = this.colaFinalizado.raiz;
+    
+    while (nodoActual){      
+        var tiempoProceso = nodoActual.contadorListo + nodoActual.contadorCritico + nodoActual.contadorBloqueado + nodoActual.contadorSuspendido;
+        var tasaCritico = nodoActual.contadorCritico / tiempoProceso;
+        var tasaSuspendido = nodoActual.contadorSuspendido / tiempoProceso;
+        var tasaListo = nodoActual.contadorListo / tiempoProceso;
+        var tasaBloqueado = nodoActual.contadorBloqueado / tiempoProceso;
+        
+        switch(nodoActual.metrica){
+            case 1:
+                if(tasaSuspendido > tasaCritico || tasaListo > tasaCritico || tasaBloqueado > tasaCritico){
+                    console.log("malo")
+                }
+                else{
+                    console.log("bueno")
+                }
+                break;
+            case 2:
+                if(tasaSuspendido > tasaCritico || tasaListo > tasaCritico || tasaBloqueado > tasaCritico){
+                    console.log("malo")
+                }
+                else{
+                    console.log("bueno")
+                }
+                break;
+            case 3:
+                if(tasaSuspendido > tasaCritico || tasaBloqueado > tasaCritico){
+                    console.log("malo")
+                }
+                else{
+                    console.log("bueno")
+                }
+                break;
+            case 4:
+                if(tasaListo > tasaCritico || tasaBloqueado > tasaCritico){
+                    console.log("malo")
+                }
+                else{
+                    console.log("bueno")
+                }
+                break;
+            case 5:
+                if(tasaBloqueado > tasaCritico){
+                    console.log("malo")
+                }
+                else{
+                    console.log("bueno")
+                }
+                break;
+        }
+        nodoActual = nodoActual.siguiente;
+    }
+}
+//El metodo funciona bajo la premisa de que las prioridades van de 1 a 5

@@ -7,6 +7,8 @@ var prioridadNoApropiativa = function (procesador){
 
 //---------------------------------------------------------------------------------------------------------------------------------
 prioridadNoApropiativa.prototype.procesar = function (){
+	this.procesador.calcularMetrica();
+	
 	if(this.procesador.estadoProcesador == "pausado"){
 		clearInterval(this.hiloOrdenarColaListo);
 		clearInterval(this.hiloActualInterval);
