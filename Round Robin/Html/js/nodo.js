@@ -45,6 +45,7 @@ Nodo.prototype.dibujarGanttNodo = function (){
 	var sumaTiempoRetorno = new Array();
 	var sumaTiempoPenalizacion = new Array();
 	var tiempoPenalizacionTotal;
+	var flagMetricaSuspendido = 0;
 	var flag = 0;
 	
 	nodo.contador = 1;
@@ -172,6 +173,10 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			nodo.contadorSuspendido);
 			$('#penalizacion' + nodo.proceso).append(nodo.proceso + ' ' + tiempoProporcionPenalizacion.toFixed(3) + ' %');
 			
+			if(nodo.metrica){
+				flagMetricaSuspendido = flagMetricaSuspendido + 1;
+			}
+			
 			//Dibujo de Progreso en el Gantt
 			$('#progreso' + nodo.proceso).append('<div class="progress-bar progress-bar-warning" style="width:'+ (contadorS)*0.5 + '%'+'"></div>');
 		}
@@ -230,12 +235,14 @@ Nodo.prototype.dibujarGanttNodo = function (){
 			sumaTiempoEspera.push(tiempoEspera);
 			for(var k = 0; k < sumaTiempoEspera.length; k ++){
 				tiempoEsperaTotal = tiempoEsperaTotal + sumaTiempoEspera[k];
+				break;
 			}
 			tiempoEsperaTotal = tiempoEsperaTotal/sumaTiempoEspera.length;
 			
 			sumaTiempoRetorno.push(respuesta);	
 			for(var e = 0; e < sumaTiempoRetorno.length; e ++){
 				tiempoRetornoTotal = tiempoRetornoTotal + sumaTiempoRetorno[e];
+				break;
 			}	
 			
 			sumaTiempoPenalizacion.push(tiempoProporcionPenalizacion);	
@@ -258,8 +265,15 @@ Nodo.prototype.dibujarGanttNodo = function (){
 					flag = flag + 1;
 				}	
 				
-				if(tiempoPenalizacionTotalT <= 50){
-					flag = flag + 1;
+				if(nodo.metrica){
+					if(flagMetricaSuspendido <=2){
+						flag = flag + 1;
+					}
+				}
+				else{
+					if(tiempoPenalizacionTotalT <= 50){
+						flag = flag + 1;
+					}
 				}
 				
 				if(flag == 1){	

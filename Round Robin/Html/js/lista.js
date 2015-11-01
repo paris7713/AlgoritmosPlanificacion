@@ -66,19 +66,23 @@ lista.prototype.extraerNodo = function extraerNodo(){
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 lista.prototype.pintarProceso = function (){
 	var cola = this;
+	var nombreRecurso;
 	setInterval(function(){
-		$("#" + cola.divId).empty(); 
+		$("#" + cola.divId).empty(); 	
+		
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
-				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica +'</span><br>');
+				nombreRecurso = maquina.recursos[cola.raiz.recurso].nombre;
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " " + nombreRecurso +'</span><br>');
 			} 
 			else{
 				var auxiliar = cola.raiz;
+				nombreRecurso = maquina.recursos[auxiliar.recurso].nombre;
 				while(auxiliar.siguiente){
-					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + '</span><br>');
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso +'</span><br>');
 					auxiliar = auxiliar.siguiente;
 					if(auxiliar == cola.cola){
-						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica +'</span><br>');
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso +'</span><br>');
 						break;	
 					}
 				}
