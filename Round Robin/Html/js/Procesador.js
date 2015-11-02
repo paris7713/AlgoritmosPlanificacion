@@ -1,12 +1,16 @@
 var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 	this.nombre = nombre;
 	this.colaListo = new lista();
+    this.colaListo2 = new lista();
+    this.colaListo3 = new lista();
 	this.colaBloqueo = new lista();
 	this.colaSuspendido = new lista();
 	this.colaCritico = new lista();
     this.colaFinalizado = new lista();
     this.dibujarProcesador(divId);
     this.hiloProceso;
+    this.hiloProceso2;
+    this.hiloProceso3;
     this.estadoProcesador;
 	this.algoritmoPlanificacion = new AlgoritmoPlanificacion(this);
     this.procesar();
@@ -17,6 +21,12 @@ Procesador.prototype.procesar = function (Proceso){
     var obj = this;
     this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
+    }, 1000);
+    this.hiloProceso2 = setInterval(function (){
+        obj.algoritmoPlanificacion2.procesar();
+    }, 1000);
+    this.hiloProceso3 = setInterval(function (){
+        obj.algoritmoPlanificacion3.procesar();
     }, 1000);
     this.estadoProcesador = "procesando";
 }
@@ -42,6 +52,8 @@ Procesador.prototype.dibujarProcesador = function (divId){
 	var procesador = this;
     var divCritico = "critico" + this.nombre;
     var divIdListo = "listo" + this.nombre;
+    var divIdListo2 = "listo" + this.nombre + "2";
+    var divIdListo3 = "listo" + this.nombre + "3";
     var divIdSuspendido = "suspendido" + this.nombre;
     var divIdBloqueado = "bloqueado" + this.nombre;
     var divIdFinalizado = "finalizado" + this.nombre;;
@@ -73,6 +85,28 @@ Procesador.prototype.dibujarProcesador = function (divId){
                 +'</div>'
             +'</div>'
             
+            +'<div class="col-md-3">'
+                +'<div class="panel panel-success">'
+                    +'<div class="panel-heading">'
+                        +'<h3 class="panel-title">Cola Listo</h3>'
+                    +'</div>'
+                    +'<div class="panel-body" id = "'+ divIdListo2 +'">'
+                    +'</div>'
+                +'</div>'
+            +'</div>'
+            
+            +'<div class="col-md-3">'
+                +'<div class="panel panel-success">'
+                    +'<div class="panel-heading">'
+                        +'<h3 class="panel-title">Cola Listo</h3>'
+                    +'</div>'
+                    +'<div class="panel-body" id = "'+ divIdListo3 +'">'
+                    +'</div>'
+                +'</div>'
+            +'</div>'
+       +'</div>'
+       
+       +'<div class = "row">'     
             +'<div class="col-md-3">'
                 +'<div class="panel panel-warning">'
                     +'<div class="panel-heading">'
@@ -108,6 +142,8 @@ Procesador.prototype.dibujarProcesador = function (divId){
     });
     
    this.colaListo.setDivId(divIdListo);
+   this.colaListo2.setDivId(divIdListo2);
+   this.colaListo3.setDivId(divIdListo3);
    this.colaSuspendido.setDivId(divIdSuspendido);
    this.colaBloqueo.setDivId(divIdBloqueado);
    this.colaFinalizado.setDivId(divIdFinalizado);
