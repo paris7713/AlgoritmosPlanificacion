@@ -1,4 +1,4 @@
-var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
+var Procesador = function (nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacion2, AlgoritmoPlanificacion3, divId){
 	this.nombre = nombre;
 	this.colaListo = new lista();
     this.colaListo2 = new lista();
@@ -13,6 +13,8 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
     this.hiloProceso3;
     this.estadoProcesador;
 	this.algoritmoPlanificacion = new AlgoritmoPlanificacion(this);
+    this.algoritmoPlanificacion2 = new AlgoritmoPlanificacion(this);
+    this.algoritmoPlanificacion3 = new AlgoritmoPlanificacion(this);
     this.procesar();
 }
 

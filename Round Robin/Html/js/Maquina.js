@@ -16,7 +16,7 @@ Maquina.prototype.agregarRecurso = function (nombre, unidad, cantidad){
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.agregarProcesador = function (nombre, AlgoritmoPlanificacion, divId){
-	this.procesadores.push(new Procesador(nombre, AlgoritmoPlanificacion, divId));
+	this.procesadores.push(new Procesador(nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacion, AlgoritmoPlanificacion, divId));
 }
 //--------------------------------------------------------------------------------------------------------------------
 Maquina.prototype.crearProceso = function (nodo){
