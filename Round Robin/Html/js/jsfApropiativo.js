@@ -1,5 +1,5 @@
 var jsf = function (procesador){
-	this.hiloOrdenarColaListo = null;
+	this.hiloOrdenarColaListo2 = null;
 	this.hiloActualInterval = null;
 	this.hiloTimeOut = null;
 	this.procesador = procesador;		
@@ -8,15 +8,15 @@ var jsf = function (procesador){
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.procesar = function (){
 	if(this.procesador.estadoProcesador == "pausado"){
-		clearInterval(this.hiloOrdenarColaListo);
+		clearInterval(this.hiloOrdenarColaListo2);
 		clearInterval(this.hiloActualInterval);
 		clearTimeout(this.hiloTimeOut);
-		this.hiloOrdenarColaListo = null;
+		this.hiloOrdenarColaListo2 = null;
 		this.hiloActualInterval = null;
 		this.hiloTimeOut = null;
 		return;
 	}
-	if(this.hiloOrdenarColaListo == null){
+	if(this.hiloOrdenarColaListo2 == null){
 		this.ordenarColaListoProcesador();
 	}
 	
@@ -24,10 +24,10 @@ jsf.prototype.procesar = function (){
 		if(this.hiloActualInterval == null && this.hiloTimeOut == null){
 			this.hiloActualInterval = setInterval(function (obj){
 				if(obj.procesador.estadoProcesador == "pausado"){
-					clearInterval(obj.hiloOrdenarColaListo);
+					clearInterval(obj.hiloOrdenarColaListo2);
 					clearInterval(obj.hiloActualInterval);
 					clearTimeout(obj.hiloTimeOut);
-					obj.hiloOrdenarColaListo = null;
+					obj.hiloOrdenarColaListo2 = null;
 					obj.hiloActualInterval = null;
 					obj.hiloTimeOut = null;
 					return;
@@ -47,22 +47,22 @@ jsf.prototype.procesar = function (){
 		}
 	}
 	else{
-		if(this.procesador.colaListo.longitud > 0){
-			var proceso = this.procesador.colaListo.raiz;
+		if(this.procesador.colaListo2.longitud > 0){
+			var proceso = this.procesador.colaListo2.raiz;
 			if(maquina.validarRecurso(proceso.recurso)){
 				clearInterval(this.hiloActualInterval);
 				clearTimeout(this.hiloTimeOut); 
 				
-				proceso = this.procesador.colaListo.extraerNodo();
+				proceso = this.procesador.colaListo2.extraerNodo();
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
 				maquina.recursos[proceso.recurso].disponible  = 0;
 				this.hiloActualInterval = setInterval(function (obj){
 					if(obj.procesador.estadoProcesador == "pausado"){
-						clearInterval(obj.hiloOrdenarColaListo);
+						clearInterval(obj.hiloOrdenarColaListo2);
 						clearInterval(obj.hiloActualInterval);
 						clearTimeout(obj.hiloTimeOut);
-						obj.hiloOrdenarColaListo = null;
+						obj.hiloOrdenarColaListo2 = null;
 						obj.hiloActualInterval = null;
 						obj.hiloTimeOut = null;
 						return;
@@ -81,7 +81,7 @@ jsf.prototype.procesar = function (){
 				}, this.procesador.colaCritico.raiz.tiempo * 1000, this);
 			}
 			else{
-				var auxiliarListo = this.procesador.colaListo.extraerNodo();
+				var auxiliarListo = this.procesador.colaListo2.extraerNodo();
 				auxiliarListo.estado = 'bloqueado';
 				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
 			}
@@ -95,7 +95,7 @@ jsf.prototype.procesar = function (){
 			}
 			var raiz = obj.procesador.colaSuspendido.extraerNodo();
 			raiz.estado = "listo";
-			obj.procesador.colaListo.insertarNodo(raiz);	
+			obj.procesador.colaListo2.insertarNodo(raiz);	
 		}, 3000, this);
 	}
 	
@@ -103,7 +103,7 @@ jsf.prototype.procesar = function (){
 		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
 			var raiz = this.procesador.colaBloqueo.extraerNodo();
 			raiz.estado = "listo";
-			this.procesador.colaListo.insertarNodo(raiz);	
+			this.procesador.colaListo2.insertarNodo(raiz);	
 		}
 	}
 }
@@ -117,7 +117,7 @@ jsf.prototype.initProcesar = function (procesador){
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.ordenarColaListoProcesador = function (){
-	this.hiloOrdenarColaListo = setInterval(function (obj){
-		obj.procesador.colaListo.ordenarBurbujaSergio();
+	this.hiloOrdenarColaListo2 = setInterval(function (obj){
+		obj.procesador.colaListo2.ordenarBurbujaSergio();
 	}, 500, this);
 }

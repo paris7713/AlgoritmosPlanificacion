@@ -45,7 +45,7 @@ lista.prototype.insertarNodo = function (nodo){
 // Extraer el primer nodo de la lista
 lista.prototype.extraerNodo = function extraerNodo(){
 	if(this.longitud == 0){
-		alert("Cola vacia");
+		//alert("Cola vacia");
 	}
 	else{
 		if(this.longitud == 1){

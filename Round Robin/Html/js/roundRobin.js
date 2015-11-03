@@ -1,106 +1,115 @@
-var RoundRobin = function (){
-		
+var RoundRobin = function (procesador){		
+	this.procesador = procesador;	
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
-RoundRobin.prototype.procesar = function (procesador){
-	if(procesador.colaCritico.longitud > 0){
+RoundRobin.prototype.procesar = function (){
+	if(this.procesador.colaCritico.longitud > 0){
+		var obj = this.procesador;
 		var hilo = setInterval(function(){
-			if(procesador.estadoProcesador == "pausado"){
+			if(obj.estadoProcesador == "pausado"){
 				return;
-			}
-			procesador.colaCritico.raiz.tiempo = procesador.colaCritico.raiz.tiempo - 1;	
+			}			
+			obj.colaCritico.raiz.tiempo = obj.colaCritico.raiz.tiempo - 1;
+			obj.colaCritico.raiz.metrica = obj.colaCritico.raiz.metrica - 1;
 		}, 1000);
+		
+		var raiz = this.procesador.raiz
+		
 		setTimeout(function (){
 			clearInterval(hilo);
-			if(procesador.estadoProcesador == "pausado"){
+			if(obj.estadoProcesador == "pausado"){
 				return;
 			}
 			else{
-				if(procesador.colaCritico.raiz.tiempo > 0){		
+				raiz.metrica = Math.floor((raiz.tiempo * 30)/100);
+				raiz.metricaTmp = raiz.metrica;
+				if(obj.colaCritico.raiz.tiempo > 0){		
 					//Analizar suspendido
-					raiz = procesador.colaCritico.raiz;
+					raiz = obj.colaCritico.raiz;
 					raiz.estado = "suspendido";
-					procesador.suspenderProceso(raiz);
+					obj.suspenderProceso(raiz);
 					maquina.liberarRecurso(raiz.recurso);
-					procesador.colaCritico.extraerNodo();
+					obj.colaCritico.extraerNodo();
 				}
 				else{
 					//Analizar terminado
 					raiz.estado = "finalizado";
-					raiz = procesador.colaCritico.raiz;
-					procesador.colaFinalizado.insertarNodo(raiz);
+					raiz = obj.colaCritico.raiz;
+					obj.colaFinalizado.insertarNodo(raiz);
 					maquina.liberarRecurso(raiz.recurso);
-					procesador.colaCritico.extraerNodo();
+					obj.colaCritico.extraerNodo();
 				}
 			}
 							
-		}, procesador.colaCritico.raiz.metricaTmp * 1000);
+		}, this.procesador.colaCritico.raiz.metricaTmp * 1000);
 	}
 	else{
-		if(procesador.colaListo.longitud > 0){
-			var raiz = procesador.colaListo.extraerNodo();
+		if(this.procesador.colaListo.longitud > 0){
+			var raiz = this.procesador.colaListo.extraerNodo();
 			if(maquina.validarRecurso(raiz.recurso)){			
-				procesador.pararProcesar();
+				this.procesador.pararProcesar();
 	
-				procesador.colaCritico.insertarNodo(raiz);
+				this.procesador.colaCritico.insertarNodo(raiz);
 				raiz.estado = "critico";	
+				raiz.metrica = Math.floor((raiz.tiempo * 30)/100);
+				raiz.metricaTmp = raiz.metrica;
 				maquina.recursos[raiz.recurso].disponible = 0;
-				var tiempo = procesador.colaCritico.raiz.tiempo - raiz.metrica;
+				var tiempo = this.procesador.colaCritico.raiz.tiempo - raiz.metrica;
 				var hilo = setInterval(function(){
-					if(procesador.estadoProcesador == "pausado"){
+					if(this.procesador.estadoProcesador == "pausado"){
 						return;
 					}
-					procesador.colaCritico.raiz.tiempo = procesador.colaCritico.raiz.tiempo - 1;
-					procesador.colaCritico.raiz.metricaTmp = procesador.colaCritico.raiz.metricaTmp - 1;
+					this.procesador.colaCritico.raiz.tiempo = this.procesador.colaCritico.raiz.tiempo - 1;
+					this.procesador.colaCritico.raiz.metrica = this.procesador.colaCritico.raiz.metrica - 1;
 				}, 1000);
 				setTimeout(function (){
 					clearInterval(hilo);
-					if(procesador.estadoProcesador == "pausado"){
+					if(this.procesador.estadoProcesador == "pausado"){
 						return;
 					}
 					else{
-						if(procesador.colaCritico.raiz.tiempo > 0){		
+						if(this.procesador.colaCritico.raiz.tiempo > 0){		
 							//Analizar suspendido
-							raiz = procesador.colaCritico.raiz;
+							raiz = this.procesador.colaCritico.raiz;
 							raiz.estado = "suspendido";
-							procesador.suspenderProceso(raiz);
+							this.procesador.suspenderProceso(raiz);
 							maquina.liberarRecurso(raiz.recurso);
-							procesador.colaCritico.extraerNodo();
+							this.procesador.colaCritico.extraerNodo();
 						}
 						else{
 							//Analizar terminado
 							raiz.estado = "finalizado";
-							raiz = procesador.colaCritico.raiz;
-							procesador.colaFinalizado.insertarNodo(raiz);
+							raiz = this.procesador.colaCritico.raiz;
+							this.procesador.colaFinalizado.insertarNodo(raiz);
 							maquina.liberarRecurso(raiz.recurso);
-							procesador.colaCritico.extraerNodo();
+							this.procesador.colaCritico.extraerNodo();
 						}
 						
-						procesador.procesar();	
+						this.procesador.procesar();	
 					}
 								
 				}, raiz.metrica * 1000);	
 			}
 			else{
 				raiz.estado = "bloqueado";
-				procesador.colaBloqueo.insertarNodo(raiz);
+				this.procesador.colaBloqueo.insertarNodo(raiz);
 			}
 		}
 		
-		if(procesador.colaSuspendido.longitud > 0){
+		if(this.procesador.colaSuspendido.longitud > 0){
 			setTimeout(function(){
-				var raiz = procesador.colaSuspendido.extraerNodo();
+				var raiz = this.procesador.colaSuspendido.extraerNodo();
 				raiz.estado = "listo";
-				procesador.colaListo.insertarNodo(raiz);	
+				this.procesador.colaListo.insertarNodo(raiz);	
 			}, 3000);
 		}
 		
-		if(procesador.colaBloqueo.longitud > 0){
-			if(maquina.validarRecurso(procesador.colaBloqueo.raiz.recurso)){
-				var raiz = procesador.colaBloqueo.extraerNodo();
+		if(this.procesador.colaBloqueo.longitud > 0){
+			if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
+				var raiz = this.procesador.colaBloqueo.extraerNodo();
 				raiz.estado = "listo";
-				procesador.colaListo.insertarNodo(raiz);	
+				this.procesador.colaListo.insertarNodo(raiz);	
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 //constructor
-var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
+var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado, prioridadColaListo){
 	this.proceso = nombre;
 	this.tiempo = tiempo;
 	this.metrica = metrica;
@@ -9,6 +9,7 @@ var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado){
 	this.anterior = null;
 	this.recurso = recurso;
 	this.estado = estado;
+	this.prioridadColaListo = prioridadColaListo;
 	this.contador = 0;
 	this.contadorListo = 0;
 	this.contadorBloqueado = 0;
