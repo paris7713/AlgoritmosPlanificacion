@@ -39,13 +39,13 @@ fifo.prototype.procesar = function (){
 		}
 	}
 	else{
-		if(this.procesador.colaListo.longitud > 0){
-			var proceso = this.procesador.colaListo.raiz;
+		if(this.procesador.colaListo3.longitud > 0){
+			var proceso = this.procesador.colaListo3.raiz;
 			if(maquina.validarRecurso(proceso.recurso)){
 				clearInterval(this.hiloActualInterval);
 				clearTimeout(this.hiloTimeOut); 
 				
-				proceso = this.procesador.colaListo.extraerNodo();
+				proceso = this.procesador.colaListo3.extraerNodo();
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
 				maquina.recursos[proceso.recurso].disponible  = 0;
@@ -71,7 +71,7 @@ fifo.prototype.procesar = function (){
 				}, this.procesador.colaCritico.raiz.tiempo * 1000, this);
 			}
 			else{
-				var auxiliarListo = this.procesador.colaListo.extraerNodo();
+				var auxiliarListo = this.procesador.colaListo3.extraerNodo();
 				auxiliarListo.estado = 'bloqueado';
 				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
 			}
@@ -82,7 +82,7 @@ fifo.prototype.procesar = function (){
 		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
 			var raiz = this.procesador.colaBloqueo.extraerNodo();
 			raiz.estado = "listo";
-			this.procesador.colaListo.insertarNodo(raiz);	
+			this.procesador.colaListo3.insertarNodo(raiz);	
 		}
 	}
 }

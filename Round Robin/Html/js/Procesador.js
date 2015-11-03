@@ -21,12 +21,12 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacio
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
     var obj = this;
-    this.hiloProceso = setInterval(function (){
+    /*this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
     }, 1000);
     this.hiloProceso2 = setInterval(function (){
         obj.algoritmoPlanificacion2.procesar();
-    }, 1000);
+    }, 1000);*/
     this.hiloProceso3 = setInterval(function (){
         obj.algoritmoPlanificacion3.procesar();
     }, 1000);
@@ -36,7 +36,19 @@ Procesador.prototype.procesar = function (Proceso){
 Procesador.prototype.insertarProceso = function (nodo){
     nodo.setDivId("#gantt" + this.nombre);
     nodo.dibujarGanttNodo();
-    this.colaListo.insertarNodo(nodo);
+    var numCola = parseInt(nodo.prioridadColaListo);
+    
+    if(numCola == 1){
+        this.colaListo.insertarNodo(nodo);               
+    }
+    else{
+        if(numCola == 2){
+            this.colaListo2.insertarNodo(nodo);
+        }
+        else{
+            this.colaListo3.insertarNodo(nodo);
+        }
+    }
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.bloquearProceso = function (nodo){
@@ -77,30 +89,30 @@ Procesador.prototype.dibujarProcesador = function (divId){
         +'</div>'
         
        +'<div class = "row">'
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-success">'
                     +'<div class="panel-heading">'
-                        +'<h3 class="panel-title">Cola Listo</h3>'
+                        +'<h3 class="panel-title">Cola Listo 1 Round Robin</h3>'
                     +'</div>'
                     +'<div class="panel-body" id = "'+ divIdListo +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
             
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-success">'
                     +'<div class="panel-heading">'
-                        +'<h3 class="panel-title">Cola Listo</h3>'
+                        +'<h3 class="panel-title">Cola Listo 2 SRTF</h3>'
                     +'</div>'
                     +'<div class="panel-body" id = "'+ divIdListo2 +'">'
                     +'</div>'
                 +'</div>'
             +'</div>'
             
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-success">'
                     +'<div class="panel-heading">'
-                        +'<h3 class="panel-title">Cola Listo</h3>'
+                        +'<h3 class="panel-title">Cola Listo 3 FIFO</h3>'
                     +'</div>'
                     +'<div class="panel-body" id = "'+ divIdListo3 +'">'
                     +'</div>'
@@ -109,7 +121,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
        +'</div>'
        
        +'<div class = "row">'     
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-warning">'
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola Suspendido</h3>'
@@ -119,7 +131,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                 +'</div>'
             +'</div>'
             
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-danger">'
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola Bloqueado</h3>'
@@ -129,7 +141,7 @@ Procesador.prototype.dibujarProcesador = function (divId){
                 +'</div>'
             +'</div>'
             
-            +'<div class="col-md-3">'
+            +'<div class="col-md-4">'
                 +'<div class="panel panel-info">'
                     +'<div class="panel-heading">'
                         +'<h3 class="panel-title">Cola terminado</h3>'
