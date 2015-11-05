@@ -115,3 +115,7 @@ RoundRobin.prototype.procesar = function (){
 	}
 			
 }
+//---------------------------------------------------------------------------------------------------------------------------------
+RoundRobin.prototype.setPrioridad = function (prioridad){
+	this.prioridad = prioridad;
+}
