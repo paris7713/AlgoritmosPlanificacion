@@ -9,6 +9,7 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
     this.colaFinalizado = new lista();
     this.dibujarProcesador(divId);
     this.hiloProceso;
+    this.hiloProcesoAlgoritmo;
     this.hiloProceso2;
     this.hiloProceso3;
     this.estadoProcesador;
@@ -24,27 +25,15 @@ Procesador.prototype.procesar = function (Proceso){
     var obj = this;
     this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
-    }, 1000);/*
-    this.hiloProceso2 = setInterval(function (){
-        obj.algoritmoPlanificacion2.procesar();
-    }, 1000);
-    this.hiloProceso3 = setInterval(function (){
-        obj.algoritmoPlanificacion3.procesar();
-    }, 1000);*/
-    this.estadoProcesador = "procesando";
+    }, 1100);
+    this.estadoPocesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.procesarAlgortimo = function (algoritmo){
-    var obj = this;
-    this.hiloProceso = setInterval(function (){
-        obj.algoritmoPlanificacion.procesar();
-    }, 1000);/*
-    this.hiloProceso2 = setInterval(function (){
-        obj.algoritmoPlanificacion2.procesar();
-    }, 1000);
-    this.hiloProceso3 = setInterval(function (){
-        obj.algoritmoPlanificacion3.procesar();
-    }, 1000);*/
+Procesador.prototype.procesarAlgoritmo = function (algoritmo){
+    this.hiloProcesoAlgoritmo = setInterval(function (Algoritmo){
+        Algoritmo.procesar();
+    }, 1000, algoritmo);
+    console.log(this.hiloProcesoAlgoritmo);
     this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -282,4 +271,8 @@ Procesador.prototype.setAlgoritmo3 = function (Algoritmo){
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.setPrioridadAlgoritmo = function (algoritmo, prioridad){
     algoritmo.setPrioridad(prioridad);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.pararAlgoritmo = function (){
+    clearTimeout(this.hiloProcesoAlgoritmo);   
 }

@@ -1,12 +1,12 @@
 var RoundRobin = function (procesador){		
 	this.procesador = procesador;	
 }
-
+var banderaSupendidoRR = 0;
 //---------------------------------------------------------------------------------------------------------------------------------
 RoundRobin.prototype.procesar = function (){
 	if(this.procesador.colaCritico.longitud > 0){
 		var obj = this.procesador;
-		var hilo = setInterval(function(){
+		/*var hilo = setInterval(function(){
 			if(obj.estadoProcesador == "pausado"){
 				return;
 			}			
@@ -21,19 +21,20 @@ RoundRobin.prototype.procesar = function (){
 			if(obj.estadoProcesador == "pausado"){
 				return;
 			}
-			else{
-				raiz.metrica = Math.floor((raiz.tiempo * 30)/100);
-				raiz.metricaTmp = raiz.metrica;
+			else{				
 				if(obj.colaCritico.raiz.tiempo > 0){		
 					//Analizar suspendido
 					raiz = obj.colaCritico.raiz;
 					raiz.estado = "suspendido";
 					obj.suspenderProceso(raiz);
+					raiz.metrica = Math.floor((raiz.tiempo * 30)/100) + 1;
+					raiz.metricaTmp = raiz.metrica;
 					maquina.liberarRecurso(raiz.recurso);
-					obj.colaCritico.extraerNodo();
+					obj.colaCritico.extraerNodo();					
 				}
 				else{
 					//Analizar terminado
+					raiz = obj.colaCritico.raiz;
 					raiz.estado = "finalizado";
 					raiz = obj.colaCritico.raiz;
 					obj.colaFinalizado.insertarNodo(raiz);
@@ -42,51 +43,59 @@ RoundRobin.prototype.procesar = function (){
 				}
 			}
 							
-		}, this.procesador.colaCritico.raiz.metricaTmp * 1000);
+		}, this.procesador.colaCritico.raiz.metrica * 1000);*/
 	}
 	else{
 		if(this.procesador.colaListo.longitud > 0){
 			var raiz = this.procesador.colaListo.extraerNodo();
 			if(maquina.validarRecurso(raiz.recurso)){			
-				this.procesador.pararProcesar();
+				//this.procesador.pararProcesar();
 	
 				this.procesador.colaCritico.insertarNodo(raiz);
 				raiz.estado = "critico";	
-				raiz.metrica = Math.floor((raiz.tiempo * 30)/100);
-				raiz.metricaTmp = raiz.metrica;
 				maquina.recursos[raiz.recurso].disponible = 0;
 				var tiempo = this.procesador.colaCritico.raiz.tiempo - raiz.metrica;
+				var obj = this;
 				var hilo = setInterval(function(){
-					if(this.procesador.estadoProcesador == "pausado"){
+					if(obj.procesador.estadoProcesador == "pausado"){
 						return;
 					}
-					this.procesador.colaCritico.raiz.tiempo = this.procesador.colaCritico.raiz.tiempo - 1;
-					this.procesador.colaCritico.raiz.metrica = this.procesador.colaCritico.raiz.metrica - 1;
+					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
+					obj.procesador.colaCritico.raiz.metrica = obj.procesador.colaCritico.raiz.metrica - 1;
 				}, 1000);
+				
 				setTimeout(function (){
 					clearInterval(hilo);
-					if(this.procesador.estadoProcesador == "pausado"){
+					if(obj.procesador.estadoProcesador == "pausado"){
 						return;
 					}
 					else{
-						if(this.procesador.colaCritico.raiz.tiempo > 0){		
+						if(obj.procesador.colaCritico.raiz.tiempo > 0){		
 							//Analizar suspendido
-							raiz = this.procesador.colaCritico.raiz;
+							raiz = obj.procesador.colaCritico.raiz;
+							banderaSupendidoRR = 1;
 							raiz.estado = "suspendido";
-							this.procesador.suspenderProceso(raiz);
+							obj.procesador.suspenderProceso(raiz);
+							raiz.metrica = Math.floor((raiz.tiempo * 30)/100);
+							if(raiz.metrica == 0){
+								raiz.metrica = 1;
+							}
+							raiz.metricaTmp = raiz.metrica;
 							maquina.liberarRecurso(raiz.recurso);
-							this.procesador.colaCritico.extraerNodo();
+							obj.procesador.colaCritico.extraerNodo();
 						}
 						else{
 							//Analizar terminado
 							raiz.estado = "finalizado";
-							raiz = this.procesador.colaCritico.raiz;
-							this.procesador.colaFinalizado.insertarNodo(raiz);
+							raiz = obj.procesador.colaCritico.raiz;
+							obj.procesador.colaFinalizado.insertarNodo(raiz);
 							maquina.liberarRecurso(raiz.recurso);
-							this.procesador.colaCritico.extraerNodo();
+							obj.procesador.colaCritico.extraerNodo();
+							banderaSupendidoRR = 0;
+							obj.procesador.pararAlgoritmo();
 						}
 						
-						this.procesador.procesar();	
+						//this.procesador.procesar();	
 					}
 								
 				}, raiz.metrica * 1000);	
@@ -98,10 +107,11 @@ RoundRobin.prototype.procesar = function (){
 		}
 		
 		if(this.procesador.colaSuspendido.longitud > 0){
+			var obj = this;
 			setTimeout(function(){
-				var raiz = this.procesador.colaSuspendido.extraerNodo();
+				var raiz = obj.procesador.colaSuspendido.extraerNodo();
 				raiz.estado = "listo";
-				this.procesador.colaListo.insertarNodo(raiz);	
+				obj.procesador.colaListo.insertarNodo(raiz);	
 			}, 3000);
 		}
 		

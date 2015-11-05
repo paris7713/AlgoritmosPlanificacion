@@ -36,6 +36,7 @@ fifo.prototype.procesar = function (){
 				obj.procesador.colaFinalizado.insertarNodo(finalizado);
 				maquina.liberarRecurso(finalizado.recurso);
 				clearInterval(obj.hiloActualInterval);
+				obj.procesador.pararAlgoritmo();
 			}, this.procesador.colaCritico.raiz.tiempo * 1000, this);	
 		}
 	}
@@ -69,6 +70,7 @@ fifo.prototype.procesar = function (){
 					obj.procesador.colaFinalizado.insertarNodo(finalizado);
 					maquina.liberarRecurso(finalizado.recurso);
 					clearInterval(obj.hiloActualInterval);
+					obj.procesador.pararAlgoritmo();
 				}, this.procesador.colaCritico.raiz.tiempo * 1000, this);
 			}
 			else{
