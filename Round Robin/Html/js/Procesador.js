@@ -13,23 +13,23 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacio
     this.hiloProceso3;
     this.estadoProcesador;
 	this.algoritmoPlanificacion = new AlgoritmoPlanificacion(this);
-    this.algoritmoPlanificacion2 = new AlgoritmoPlanificacion(this);
-    this.algoritmoPlanificacion3 = new AlgoritmoPlanificacion(this);
+    this.algoritmoPlanificacion2 = new AlgoritmoPlanificacion2(this);
+    this.algoritmoPlanificacion3 = new AlgoritmoPlanificacion3(this);
     this.procesar();
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.procesar = function (Proceso){
     var obj = this;
-    /*this.hiloProceso = setInterval(function (){
+    this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
-    }, 1000);
+    }, 1000);/*
     this.hiloProceso2 = setInterval(function (){
         obj.algoritmoPlanificacion2.procesar();
-    }, 1000);*/
+    }, 1000);
     this.hiloProceso3 = setInterval(function (){
         obj.algoritmoPlanificacion3.procesar();
-    }, 1000);
+    }, 1000);*/
     this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
