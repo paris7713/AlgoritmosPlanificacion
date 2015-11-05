@@ -1,4 +1,4 @@
-var Procesador = function (nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacion2, AlgoritmoPlanificacion3, divId){
+var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
 	this.nombre = nombre;
 	this.colaListo = new lista();
     this.colaListo2 = new lista();
@@ -13,8 +13,9 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, AlgoritmoPlanificacio
     this.hiloProceso3;
     this.estadoProcesador;
 	this.algoritmoPlanificacion = new AlgoritmoPlanificacion(this);
-    this.algoritmoPlanificacion2 = new AlgoritmoPlanificacion2(this);
-    this.algoritmoPlanificacion3 = new AlgoritmoPlanificacion3(this);
+    this.algoritmoPlanificacion1;
+    this.algoritmoPlanificacion2; 
+    this.algoritmoPlanificacion3;
     this.procesar();
 }
 
@@ -267,6 +268,18 @@ Procesador.prototype.calcularMetrica = function (){
 }
 //El metodo funciona bajo la premisa de que las prioridades van de 1 a 5
 //---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.setAlgoritmo1 = function (Algoritmo){
+    this.algoritmoPlanificacion1 = new Algoritmo(this);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.setAlgoritmo2 = function (Algoritmo){
+    this.algoritmoPlanificacion2 = new Algoritmo(this);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.setAlgoritmo3 = function (Algoritmo){
+    this.algoritmoPlanificacion3 = new Algoritmo(this);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.setPrioridadAlgoritmo = function (algoritmo, prioridad){
-    this.algoritmo.setPrioridad(prioridad);
+    algoritmo.setPrioridad(prioridad);
 }
