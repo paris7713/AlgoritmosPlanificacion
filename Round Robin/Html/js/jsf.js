@@ -145,3 +145,6 @@ jsf.prototype.ordenarColaListoProcesador = function (){
 	}, 500, this);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+jsf.prototype.setPrioridad = function (prioridad){
+	this.prioridad = prioridad;
+}

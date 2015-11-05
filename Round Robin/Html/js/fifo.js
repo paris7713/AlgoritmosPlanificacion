@@ -1,7 +1,8 @@
 var fifo = function (procesador){
 	this.hiloActualInterval = null;
 	this.hiloTimeOut = null;
-	this.procesador = procesador;		
+	this.procesador = procesador;
+	this.prioridad;
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -93,4 +94,8 @@ fifo.prototype.initProcesar = function (procesador){
 	obj.hiloProceso = procesador.hiloProceso = setInterval(function (){
 		obj.procesar();
 	}, 2000);
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+fifo.prototype.setPrioridad = function (prioridad){
+	this.prioridad = prioridad;
 }

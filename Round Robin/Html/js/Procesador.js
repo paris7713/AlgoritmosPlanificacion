@@ -33,6 +33,20 @@ Procesador.prototype.procesar = function (Proceso){
     this.estadoProcesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.procesarAlgortimo = function (algoritmo){
+    var obj = this;
+    this.hiloProceso = setInterval(function (){
+        obj.algoritmoPlanificacion.procesar();
+    }, 1000);/*
+    this.hiloProceso2 = setInterval(function (){
+        obj.algoritmoPlanificacion2.procesar();
+    }, 1000);
+    this.hiloProceso3 = setInterval(function (){
+        obj.algoritmoPlanificacion3.procesar();
+    }, 1000);*/
+    this.estadoProcesador = "procesando";
+}
+//---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
     nodo.setDivId("#gantt" + this.nombre);
     nodo.dibujarGanttNodo();
@@ -252,3 +266,7 @@ Procesador.prototype.calcularMetrica = function (){
     }
 }
 //El metodo funciona bajo la premisa de que las prioridades van de 1 a 5
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.setPrioridadAlgoritmo = function (algoritmo, prioridad){
+    this.algoritmo.setPrioridad(prioridad);
+}
