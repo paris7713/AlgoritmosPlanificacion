@@ -13,6 +13,11 @@ function crearProceso(){
 		if (metrica == undefined)
 			metrica = "-"
 	}*/
-	metrica = "-"	
+	
+	if(prioridadColaListo == 1)
+		metrica = Math.floor((tiempo * 30)/100);
+	else
+		metrica = "-"	
+		
 	maquina.crearProceso(new Nodo(nombre, tiempo, metrica, recurso, procesador, "listo", prioridadColaListo));
 }
