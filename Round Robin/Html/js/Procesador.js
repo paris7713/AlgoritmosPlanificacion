@@ -18,6 +18,7 @@ var Procesador = function (nombre, AlgoritmoPlanificacion, divId){
     this.algoritmoPlanificacion2; 
     this.algoritmoPlanificacion3;
     this.procesar();
+    this.banderaAlgoritmoProcesando;
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -29,12 +30,21 @@ Procesador.prototype.procesar = function (Proceso){
     this.estadoPocesador = "procesando";
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-Procesador.prototype.procesarAlgoritmo = function (algoritmo){
+Procesador.prototype.procesarAlgoritmo = function (algoritmo){       
+    if(algoritmo.prioridad == 1){
+        this.banderaAlgoritmoProcesando = "Algoritmo1";
+    }
+    else if(algoritmo.prioridad == 2){
+        this.banderaAlgoritmoProcesando = "Algoritmo2";    
+    }
+    else if (algoritmo.prioridad == 3){
+        this.banderaAlgoritmoProcesando = "Algoritmo3";         
+    }
     this.hiloProcesoAlgoritmo = setInterval(function (Algoritmo){
         Algoritmo.procesar();
     }, 1000, algoritmo);
     console.log(this.hiloProcesoAlgoritmo);
-    this.estadoProcesador = "procesando";
+    this.estadoProcesador = "procesando";    
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){

@@ -5,6 +5,8 @@ var jsf = function (procesador){
 	this.procesador = procesador;		
 }
 
+var banderaSupendidoSRTF = 0;
+var banderaBloqueadoSRTF = 0;
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.procesar = function (){
 	if(this.procesador.estadoProcesador == "pausado"){
@@ -32,6 +34,7 @@ jsf.prototype.procesar = function (){
 					
 					maquina.liberarRecurso(auxiliarCritico.recurso);
 					auxiliarCritico.estado = 'suspendido';
+					banderaSupendidoSRTF = 1;
 					this.procesador.colaSuspendido.insertarNodo(auxiliarCritico);
 					
 					auxiliarListo.estado = 'critico';
@@ -56,6 +59,7 @@ jsf.prototype.procesar = function (){
 						}
 						var finalizado = obj.procesador.colaCritico.extraerNodo();
 						finalizado.estado = 'finalizado';
+						banderaSupendidoSRTF = 0;
 						obj.procesador.colaFinalizado.insertarNodo(finalizado);
 						maquina.liberarRecurso(finalizado.recurso);
 						clearInterval(obj.hiloActualInterval);
@@ -99,6 +103,7 @@ jsf.prototype.procesar = function (){
 					}
 					var finalizado = obj.procesador.colaCritico.extraerNodo();
 					finalizado.estado = 'finalizado';
+					banderaSupendidoSRTF = 0;
 					obj.procesador.colaFinalizado.insertarNodo(finalizado);
 					maquina.liberarRecurso(finalizado.recurso);
 					clearInterval(obj.hiloActualInterval);
@@ -108,7 +113,8 @@ jsf.prototype.procesar = function (){
 			else{
 				var auxiliarListo = this.procesador.colaListo2.extraerNodo();
 				auxiliarListo.estado = 'bloqueado';
-				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
+				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);	
+				banderaBloqueadoSRTF = 1; 			
 			}
 		}
 	}
@@ -128,6 +134,7 @@ jsf.prototype.procesar = function (){
 		if(maquina.validarRecurso(this.procesador.colaBloqueo.raiz.recurso)){
 			var raiz = this.procesador.colaBloqueo.extraerNodo();
 			raiz.estado = "listo";
+			banderaBloqueadoSRTF = 0; 
 			this.procesador.colaListo2.insertarNodo(raiz);	
 		}
 	}

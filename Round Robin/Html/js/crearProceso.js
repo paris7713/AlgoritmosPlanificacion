@@ -5,19 +5,14 @@ function crearProceso(){
 	var metrica;
 	var recurso = $("#recursos").val();
 	var prioridadColaListo = $("#prioridadColaListo").val();
-	
-	/*if(flag == 'Round Robin')
-		metrica = Math.floor((tiempo * 30)/100);
-	else{
-		metrica = $("#prioridadT").val();
-		if (metrica == undefined)
-			metrica = "-"
-	}*/
+	var tiempoEnvejecimiento;
 	
 	if(prioridadColaListo == 1)
 		metrica = Math.floor((tiempo * 30)/100);
 	else
 		metrica = "-"	
-		
-	maquina.crearProceso(new Nodo(nombre, tiempo, metrica, recurso, procesador, "listo", prioridadColaListo));
+	
+	tiempoEnvejecimiento = Math.floor((tiempo * 40)/100);
+	
+	maquina.crearProceso(new Nodo(nombre, tiempo, metrica, recurso, procesador, "listo", prioridadColaListo, tiempoEnvejecimiento));
 }

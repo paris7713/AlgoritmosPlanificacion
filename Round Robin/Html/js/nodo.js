@@ -1,5 +1,5 @@
 //constructor
-var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado, prioridadColaListo){
+var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado, prioridadColaListo, tiempoEnvejecimiento){
 	this.proceso = nombre;
 	this.tiempo = tiempo;
 	this.metrica = metrica;
@@ -19,6 +19,7 @@ var Nodo = function(nombre, tiempo, metrica, recurso, procesador, estado, priori
 	this.flagBloqueado = false;
 	this.divId;
 	this.hiloDibujador;
+	this.tiempoEnvejecimiento = tiempoEnvejecimiento;
 } 
 //--------------------------------------------------------------------------------------------------------------------------------------------
 Nodo.prototype.setEstado = function (estado){
@@ -309,4 +310,13 @@ Nodo.prototype.dibujarGanttNodo = function (){
 Nodo.prototype.pararDibujar = function  (){
 	clearInterval(this.hiloDibujador);
 }
-//--------------------------------------------------------------------------------------------------------------------------------------------
+///--------------------------------------------------------------------------------------------------------------------------------------------
+Nodo.prototype.descontarTiempoEnvejecimiento = function (){
+	if(this.tiempoEnvejecimiento != 0){
+		this.tiempoEnvejecimiento = this.tiempoEnvejecimiento - 1;
+		return true;
+	}
+	else{
+		return false;
+	}
+}

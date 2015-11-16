@@ -15,6 +15,7 @@ lista.prototype.insertarNodo = function (nodo){
 	nodoEntreante.metrica = nodo.metrica;
 	nodoEntreante.recurso = nodo.recurso;
 	nodoEntreante.procesador = nodo.procesador;
+	nodoEntreante.tiempoEnvejecimiento = nodo.tiempoEnvejecimiento;
 	nodoEntreante.siguiente = null;
 	nodoEntreante.estado = nodo.estado;
 	nodoEntreante.divId = nodo.divId;
@@ -73,16 +74,16 @@ lista.prototype.pintarProceso = function (){
 		if(cola.longitud){	
 			if(cola.longitud == 1){	
 				nombreRecurso = maquina.recursos[cola.raiz.recurso].nombre;
-				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " " + nombreRecurso +'</span><br>');
+				$("#"+ cola.divId).append('<span>' + cola.raiz.proceso + "    |" + cola.raiz.tiempo + " seg |" + cola.raiz.metrica + " " + nombreRecurso + " " + cola.raiz.tiempoEnvejecimiento + '</span><br>');
 			} 
 			else{
 				var auxiliar = cola.raiz;
 				nombreRecurso = maquina.recursos[auxiliar.recurso].nombre;
 				while(auxiliar.siguiente){
-					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso +'</span><br>');
+					$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso + " " + auxiliar.tiempoEnvejecimiento +'</span><br>');
 					auxiliar = auxiliar.siguiente;
 					if(auxiliar == cola.cola){
-						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso +'</span><br>');
+						$("#"+ cola.divId).append('<span>' + auxiliar.proceso + "   | " + auxiliar.tiempo + " seg |" + auxiliar.metrica + " " + nombreRecurso + " " + auxiliar.tiempoEnvejecimiento +'</span><br>');
 						break;	
 					}
 				}
