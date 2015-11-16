@@ -1,6 +1,7 @@
 var fifo = function (procesador){
 	this.hiloActualInterval = null;
 	this.hiloTimeOut = null;
+	this.hiloTiempoEnvejecimiento = null;
 	this.procesador = procesador;
 	this.prioridad;
 }
@@ -26,7 +27,12 @@ fifo.prototype.procesar = function (){
 					return;
 				}
 				obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
-			}, 1000, this);
+				if(obj.procesador.colaListo3.longitud > 0){
+					var proceso = obj.procesador.colaListo3.raiz;
+					proceso.tiempoEnvejecimiento = proceso.tiempoEnvejecimiento - 1;
+				}				
+			}, 1000, this);		
+			
 			this.hiloTimeOut = setTimeout(function (obj){
 				if(obj.procesador.estado == "pausado"){
 					return;
@@ -42,7 +48,8 @@ fifo.prototype.procesar = function (){
 	}
 	else{
 		if(this.procesador.colaListo3.longitud > 0){
-			var proceso = this.procesador.colaListo3.raiz;
+			var proceso = this.procesador.colaListo3.raiz;			
+			
 			if(maquina.validarRecurso(proceso.recurso)){
 				clearInterval(this.hiloActualInterval);
 				clearTimeout(this.hiloTimeOut); 
@@ -50,6 +57,7 @@ fifo.prototype.procesar = function (){
 				proceso = this.procesador.colaListo3.extraerNodo();
 				proceso.estado = "critico";
 				this.procesador.colaCritico.insertarNodo(proceso);
+								
 				maquina.recursos[proceso.recurso].disponible  = 0;
 				this.hiloActualInterval = setInterval(function (obj){
 					if(obj.procesador.estadoProcesador == "pausado"){
@@ -59,7 +67,7 @@ fifo.prototype.procesar = function (){
 						obj.hiloTimeOut = null;
 						return;
 					}
-					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;
+					obj.procesador.colaCritico.raiz.tiempo = obj.procesador.colaCritico.raiz.tiempo - 1;					
 				}, 1000, this);
 				this.hiloTimeOut = setTimeout(function (obj){
 					if(obj.procesador.estado == "pausado"){
@@ -79,6 +87,17 @@ fifo.prototype.procesar = function (){
 				this.procesador.colaBloqueo.insertarNodo(auxiliarListo);				
 			}
 		}
+	}
+	
+	if(this.procesador.colaSuspendido.longitud > 0){
+		setTimeout(function(obj){
+			if(obj.procesador.colaSuspendido.longitud == 0){
+				return;
+			}
+			var raiz = obj.procesador.colaSuspendido.extraerNodo();
+			raiz.estado = "listo";
+			obj.procesador.colaListo3.insertarNodo(raiz);	
+		}, 3000, this);
 	}
 	
 	if(this.procesador.colaBloqueo.longitud > 0){
