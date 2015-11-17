@@ -26,6 +26,8 @@ Procesador.prototype.procesar = function (Proceso){
     var obj = this;
     this.hiloProceso = setInterval(function (){
         obj.algoritmoPlanificacion.procesar();
+        obj.verificarColaSuspendido();
+        obj.verificarColaBloqueado();
     }, 1100);
     this.estadoPocesador = "procesando";
 }
@@ -40,11 +42,26 @@ Procesador.prototype.procesarAlgoritmo = function (algoritmo){
     else if (algoritmo.prioridad == 3){
         this.banderaAlgoritmoProcesando = "Algoritmo3";         
     }
+    
+    if(this.hiloProcesoAlgoritmo){
+        clearInterval(this.hiloProcesoAlgoritmo);
+        this.limpiarHilosAlgoritmos();
+    }
+    
     this.hiloProcesoAlgoritmo = setInterval(function (Algoritmo){
         Algoritmo.procesar();
     }, 1000, algoritmo);
-    console.log(this.hiloProcesoAlgoritmo);
     this.estadoProcesador = "procesando";    
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.limpiarHilosAlgoritmos = function (){
+    clearInterval(this.algoritmoPlanificacion1.hiloActualInterval);
+    clearInterval(this.algoritmoPlanificacion2.hiloActualInterval);
+    clearInterval(this.algoritmoPlanificacion3.hiloActualInterval); 
+    
+    clearTimeout(this.algoritmoPlanificacion1.hiloTimeOut);
+    clearTimeout(this.algoritmoPlanificacion2.hiloTimeOut);
+    clearTimeout(this.algoritmoPlanificacion3.hiloTimeOut);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.insertarProceso = function (nodo){
@@ -63,6 +80,29 @@ Procesador.prototype.insertarProceso = function (nodo){
             this.colaListo3.insertarNodo(nodo);
         }
     }
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.verificarColaSuspendido = function (nodo){
+    if(this.colaSuspendido.longitud > 0){
+        setTimeout(function(obj){
+			if(obj.colaSuspendido.longitud == 0){
+				return;
+			}
+			var raiz = obj.colaSuspendido.extraerNodo();
+			raiz.estado = "listo";
+			obj.insertarProceso(raiz);	
+		}, 3000, this);
+	}
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+Procesador.prototype.verificarColaBloqueado = function (nodo){
+    if(this.procesador.colaBloqueo.longitud > 0){
+		if(maquina.validarRecurso(this.colaBloqueo.raiz.recurso)){
+			var raiz = this.colaBloqueo.extraerNodo();
+			raiz.estado = "listo";
+			this.procesador.insertarProceso(raiz);	
+		}
+	}
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 Procesador.prototype.bloquearProceso = function (nodo){

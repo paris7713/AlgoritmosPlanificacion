@@ -89,7 +89,7 @@ fifo.prototype.procesar = function (){
 		}
 	}
 	
-	if(this.procesador.colaSuspendido.longitud > 0){
+	/*if(this.procesador.colaSuspendido.longitud > 0){
 		setTimeout(function(obj){
 			if(obj.procesador.colaSuspendido.longitud == 0){
 				return;
@@ -106,7 +106,7 @@ fifo.prototype.procesar = function (){
 			raiz.estado = "listo";
 			this.procesador.colaListo3.insertarNodo(raiz);	
 		}
-	}
+	}*/
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 fifo.prototype.initProcesar = function (procesador){
