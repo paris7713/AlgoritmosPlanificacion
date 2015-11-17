@@ -25,8 +25,8 @@ MultiplesColas.prototype.procesar = function (){
 		}
 		else if(this.procesador.colaListo2.longitud > 0 &&
 		this.procesador.colaListo.longitud == 0 &&
-		banderaSupendidoRR == 0 &&
-		banderaBloqueadoRR == 0){
+		this.validarsuspendidoAlgoritmo(1) &&
+		this.validarBloqeuadoAlgoritmo(1)){
 			this.procesador.procesarAlgoritmo(this.procesador.algoritmoPlanificacion2);
 		}
 		
@@ -38,27 +38,27 @@ MultiplesColas.prototype.procesar = function (){
 		else if(this.procesador.colaListo3.longitud > 0 &&
 		this.procesador.colaListo.longitud == 0 &&
 		this.procesador.colaListo2.longitud == 0 &&
-		banderaSupendidoSRTF == 0 &&
-		banderaBloqueadoSRTF == 0){
+		this.validarsuspendidoAlgoritmo(2) &&
+		this.validarBloqeuadoAlgoritmo(2)){
 			this.procesador.procesarAlgoritmo(this.procesador.algoritmoPlanificacion3);
 		}
 	}
 	else{
 		if(this.procesador.banderaAlgoritmoProcesando == "Algoritmo3" && this.procesador.colaListo2.longitud > 0){
 			var procesoExtraidoCola3 = this.procesador.colaCritico.extraerNodo();
-			//maquina.liberarRecurso(procesoExtraidoCola3.recurso);
+			maquina.liberarRecurso(procesoExtraidoCola3.recurso);
 			this.procesador.colaSuspendido.insertarNodo(procesoExtraidoCola3);
 			this.procesador.procesarAlgoritmo(this.procesador.algoritmoPlanificacion2);
 		}
 		else if(this.procesador.banderaAlgoritmoProcesando == "Algoritmo3" && this.procesador.colaListo.longitud > 0){
 			var procesoExtraidoCola33 = this.procesador.colaCritico.extraerNodo();
-			//maquina.liberarRecurso(procesoExtraidoCola33.recurso);
+			maquina.liberarRecurso(procesoExtraidoCola33.recurso);
 			this.procesador.colaSuspendido.insertarNodo(procesoExtraidoCola33);
 			this.procesador.procesarAlgoritmo(this.procesador.algoritmoPlanificacion1);
 		}
 		else if(this.procesador.banderaAlgoritmoProcesando == "Algoritmo2" && this.procesador.colaListo.longitud > 0){
 			var procesoExtraidoCola2 = this.procesador.colaCritico.extraerNodo();
-			//maquina.liberarRecurso(procesoExtraidoCola3.recurso);
+			maquina.liberarRecurso(procesoExtraidoCola2.recurso);
 			this.procesador.colaSuspendido.insertarNodo(procesoExtraidoCola2);
 			this.procesador.procesarAlgoritmo(this.procesador.algoritmoPlanificacion1);
 		}
@@ -75,6 +75,7 @@ MultiplesColas.prototype.procesar = function (){
 				proceso = proceso.siguiente;
 				var procesoExtraido = this.procesador.colaListo3.extraerNodo();
 				procesoExtraido.tiempoEnvejecimiento = (Math.floor((procesoExtraido.tiempo * 40)/100));
+				procesoExtraido.prioridadColaListo = 2;
 				this.procesador.colaListo2.insertarNodo(procesoExtraido);
 			}
 		}
@@ -91,13 +92,52 @@ MultiplesColas.prototype.procesar = function (){
 				proceso2 = proceso2.siguiente;
 				var procesoExtraido2 = this.procesador.colaListo2.extraerNodo();
 				procesoExtraido2.tiempoEnvejecimiento = (Math.floor((procesoExtraido2.tiempo * 40)/100));
+				procesoExtraido2.metrica = Math.floor((procesoExtraido2.tiempo * 30)/100);
+				procesoExtraido2.prioridadColaListo = 1;
 				this.procesador.colaListo.insertarNodo(procesoExtraido2);
 			}
 		}
 	} 
 }
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
-MultiplesColas.prototype.validarPrioridadAlgoritmo = function (algoritmo){
+MultiplesColas.prototype.validarsuspendidoAlgoritmo = function (algoritmo){
+	if(this.procesador.colaSuspendido.longitud == 0){
+		return true;
+	}
+	else{
+		var proceso = this.procesador.colaSuspendido.raiz;
+		while(proceso){
+			if(proceso.prioridadCola == algoritmo){
+				return false;	
+			}
+			
+			proceso = proceso.siguiente;
+			
+			if(proceso == null || proceso == undefined){
+				return true;
+			}
+		}
+	}
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+MultiplesColas.prototype.validarBloqeuadoAlgoritmo = function (algoritmo){
+	if(this.procesador.colaSuspendido.longitud == 0){
+		return true;
+	}
+	else{
+		var proceso = this.procesador.colaBloqueado.raiz;
+		while(proceso){
+			if(proceso.prioridadCola == algoritmo){
+				return false;	
+			}
+			
+			proceso = proceso.siguiente;
+			
+			if(proceso == null || proceso == undefined){
+				return true;
+			}
+		}
+	}
 }
 
 /*function haberQueResultadeEsto (prioridad){

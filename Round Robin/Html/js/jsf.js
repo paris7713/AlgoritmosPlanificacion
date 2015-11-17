@@ -119,7 +119,7 @@ jsf.prototype.procesar = function (){
 		}
 	}
 	
-	if(this.procesador.colaSuspendido.longitud > 0){
+	/*if(this.procesador.colaSuspendido.longitud > 0){
 		setTimeout(function(obj){
 			if(obj.procesador.colaSuspendido.longitud == 0){
 				return;
@@ -137,7 +137,7 @@ jsf.prototype.procesar = function (){
 			banderaBloqueadoSRTF = 0; 
 			this.procesador.colaListo2.insertarNodo(raiz);	
 		}
-	}
+	}*/
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 jsf.prototype.initProcesar = function (procesador){
